@@ -1,8 +1,5 @@
 import { SUPPORTED_LANGUAGES_MOCKS } from '$lib/mocks/translator.mock';
-import type {
-  TranslateModelSourceEnum,
-  TranslateModelTargetEnum,
-} from './generated';
+import type { TranslateModelSourceEnum } from './generated';
 import translateApi from './translator.api.config';
 
 export async function getSupportedLanguage(): Promise<T_.LangItem[]> {
@@ -24,7 +21,7 @@ export async function getSupportedLanguage(): Promise<T_.LangItem[]> {
 export async function translate(
   text: string,
   source: TranslateModelSourceEnum,
-  target: TranslateModelTargetEnum
+  target: TranslateModelSourceEnum
 ): Promise<T_.Translation> {
   const payload = {
     text,

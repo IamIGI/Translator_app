@@ -5,17 +5,21 @@
   import TranslatorOptions from './TranslatorOptions.component.svelte';
   import xSymbolSVG from '$assets/xSymbol.svg';
   import translatorStore from '$lib/+stores/translator.store';
+  import type { TranslateModelSourceEnum } from '$lib/api/translator/generated';
 
   export let type: TranslatorType;
-  const languageList = translatorStore.getSupportedLanguageList();
-  const langShortMenu = translatorStore.getLanguageShortMenuList();
+  export let selectedLanguage: TranslateModelSourceEnum;
   const isSourceTranslator = type === TranslatorType.Source;
 
   let text: string = '';
 </script>
 
 <div class="wrapper">
-  <LanguageMenu supportedLanguages={languageList} {langShortMenu} />
+  <LanguageMenu
+    langShortMenu={translatorStore.getLanguageShortMenuList(selectedLanguage)}
+    {selectedLanguage}
+    {type}
+  />
   <div class="translator-wrapper" class:translator-target={!isSourceTranslator}>
     <textarea
       name="translator"

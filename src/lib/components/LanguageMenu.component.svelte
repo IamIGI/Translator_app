@@ -1,16 +1,12 @@
 <script lang="ts">
   import DownArrowSvg from '$assets/downArrow.svg';
   import translatorStore from '$lib/+stores/translator.store';
-  import { TranslateModelSourceEnum } from '$lib/api/translator/generated';
+  import type { TranslateModelSourceEnum } from '$lib/api/translator/generated';
+  import type { TranslatorType } from '$lib/models/enums';
 
-  export let supportedLanguages: T_.LangItem[];
   export let langShortMenu: T_.LangItem[];
-
-  let selectedLang: TranslateModelSourceEnum = TranslateModelSourceEnum.Auto;
-
-  function onSelectLanguage(value: TranslateModelSourceEnum) {
-    selectedLang = value;
-  }
+  export let selectedLanguage: TranslateModelSourceEnum;
+  export let type: TranslatorType;
 </script>
 
 <div class="wrapper">
@@ -19,9 +15,10 @@
       {#each langShortMenu as langButton (langButton.value)}
         <button
           id={langButton.value}
-          class:langButtonActive={selectedLang === langButton.value}
+          class:langButtonActive={langButton.value === selectedLanguage}
           class="langButton"
-          on:click={() => onSelectLanguage(langButton.value)}
+          on:click={() =>
+            translatorStore.selectLanguage(type, langButton.value)}
         >
           {langButton.text}
         </button>
@@ -29,14 +26,14 @@
 
       <button
         class="dropDownButton"
-        on:click={() => translatorStore.toggleLangBigMenu()}
+        on:click={() => translatorStore.toggleLangBigMenu(type)}
       >
         <img
           src={DownArrowSvg}
           alt="down arrow"
           width="14"
           height="14"
-          class={`svg-icon ${$translatorStore.isLangMenuBigOpen ? 'rotateImage' : 'rotateImageBack'}`}
+          class={`svg-icon ${type === $translatorStore.bigLangMenu.type && $translatorStore.bigLangMenu.isOpen ? 'rotateImage' : 'rotateImageBack'}`}
         />
       </button>
     {/if}
@@ -44,7 +41,7 @@
   <div class="smallScreen">
     <button
       class="langButton langButtonActive"
-      on:click={() => translatorStore.toggleLangBigMenu()}
+      on:click={() => translatorStore.toggleLangBigMenu(type)}
     >
       Polski
     </button>
