@@ -8,14 +8,8 @@ import type {
 } from '$lib/api/translator/generated';
 
 declare global {
-  namespace Translator {
-    // build manifest error....
-    export enum TranslatorType {
-      Source = 'source',
-      Target = 'target',
-    }
-
-    export interface Translation {
+  namespace T_ {
+    interface Translation {
       details: any;
       translations: {
         source: TranslateModelSourceEnum;
@@ -25,7 +19,7 @@ declare global {
       };
     }
 
-    export interface SupportedLanguagesData {
+    interface SupportedLanguagesData {
       'Auto Detect': TranslateModelSourceEnum;
       Afrikaans: TranslateModelSourceEnum;
       Albanian: TranslateModelSourceEnum;
@@ -139,7 +133,7 @@ declare global {
       Zulu: TranslateModelSourceEnum;
     }
 
-    export interface LangItem {
+    interface LangItem {
       value: TranslateModelSourceEnum;
       text: string;
     }
@@ -150,8 +144,5 @@ declare global {
     // interface PageData {}
     // interface PageState {}
     // interface Platform {}
-    //Could not use enum in NextJs when declaring it in index.d.ts types,
   }
 }
-
-export {};

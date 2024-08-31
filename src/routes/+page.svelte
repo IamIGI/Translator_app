@@ -6,6 +6,10 @@
     TranslateModelSourceEnum,
     TranslateModelTargetEnum,
   } from '$lib/api/translator/generated';
+  import Navigation from '$lib/components/Navigation.component.svelte';
+  import TranslatorsView from '$lib/components/TranslatorsView.component.svelte';
+  import InfoForUser from '$lib/components/InfoForUser.component.svelte';
+  import Footer from '$lib/components/Footer.component.svelte';
 
   export let data: PageData;
 
@@ -22,7 +26,10 @@
 </script>
 
 <div class="wrapper">
-  <h1>Translator</h1>
+  <Navigation />
+  <TranslatorsView />
+  <InfoForUser />
+  <Footer />
 </div>
 
 <style lang="scss">
