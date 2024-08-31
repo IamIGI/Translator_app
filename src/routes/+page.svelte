@@ -2,10 +2,7 @@
   import { onMount } from 'svelte';
   import type { PageData } from './$types';
   import { translate } from '$lib/api/translator/translator.api.service';
-  import {
-    TranslateModelSourceEnum,
-    TranslateModelTargetEnum,
-  } from '$lib/api/translator/generated';
+  import { TranslateModelSourceEnum } from '$lib/api/translator/generated';
   import Navigation from '$lib/components/Navigation.component.svelte';
   import TranslatorsView from '$lib/components/TranslatorsView.component.svelte';
   import InfoForUser from '$lib/components/InfoForUser.component.svelte';
@@ -36,7 +33,7 @@
     gap: 10px;
     height: 100%;
     width: 100%;
-    outline: 1px solid red;
+    /* outline: 1px solid red; */
     margin: 0;
     padding: 0;
   }

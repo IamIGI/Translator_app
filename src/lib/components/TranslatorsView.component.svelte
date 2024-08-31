@@ -6,10 +6,17 @@
 </script>
 
 <div class="wrapper">
-  <Translator type={TranslatorType.Source} />
-  <Translator type={TranslatorType.Target} />
-  {#if $translatorStore.isLangMenuBigOpen}
+  <Translator
+    type={TranslatorType.Source}
+    selectedLanguage={$translatorStore.selectedSourceLanguage}
+  />
+  <Translator
+    type={TranslatorType.Target}
+    selectedLanguage={$translatorStore.selectedTargetLanguage}
+  />
+  {#if $translatorStore.bigLangMenu.isOpen}
     <LangMenuBig
+      type={$translatorStore.bigLangMenu.type}
       supportedLanguages={translatorStore.getSupportedLanguageList()}
     />
   {/if}
@@ -18,7 +25,7 @@
 <style lang="scss">
   .wrapper {
     position: relative;
-    outline: 1px solid red;
+    /* outline: 1px solid red; */
     margin: 0 2.5rem;
     display: flex;
     flex-direction: row;
