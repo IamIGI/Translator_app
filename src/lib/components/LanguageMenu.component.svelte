@@ -1,12 +1,12 @@
 <script lang="ts">
   import DownArrowSvg from '$assets/downArrow.svg';
+  import translatorStore from '$lib/+stores/translator.store';
   import { TranslateModelSourceEnum } from '$lib/api/translator/generated';
 
   export let supportedLanguages: T_.LangItem[];
   export let langShortMenu: T_.LangItem[];
 
   let selectedLang: TranslateModelSourceEnum = TranslateModelSourceEnum.Auto;
-  let isAllLanguageMenuVisible = false;
 
   function onSelectLanguage(value: TranslateModelSourceEnum) {
     selectedLang = value;
@@ -29,14 +29,14 @@
 
       <button
         class="dropDownButton"
-        on:click={() => (isAllLanguageMenuVisible = !isAllLanguageMenuVisible)}
+        on:click={() => translatorStore.toggleLangBigMenu()}
       >
         <img
           src={DownArrowSvg}
           alt="down arrow"
           width="14"
           height="14"
-          class={`svg-icon ${isAllLanguageMenuVisible ? 'rotateImage' : 'rotateImageBack'}`}
+          class={`svg-icon ${$translatorStore.isLangMenuBigOpen ? 'rotateImage' : 'rotateImageBack'}`}
         />
       </button>
     {/if}
@@ -44,14 +44,11 @@
   <div class="smallScreen">
     <button
       class="langButton langButtonActive"
-      on:click={() => (isAllLanguageMenuVisible = !isAllLanguageMenuVisible)}
+      on:click={() => translatorStore.toggleLangBigMenu()}
     >
       Polski
     </button>
   </div>
-  {#if isAllLanguageMenuVisible}
-    <div class="allLangMenuWrapper"></div>
-  {/if}
 </div>
 
 <style lang="scss">
@@ -72,13 +69,13 @@
 
     &:hover {
       background-color: rgb(245, 243, 243);
-      border-bottom: 2px solid rgb(12, 163, 9);
+      border-bottom: 2px solid var(--color-accent);
     }
   }
 
   .langButtonActive {
-    color: rgb(12, 163, 9);
-    border-bottom: 2px solid rgb(12, 163, 9);
+    color: var(--color-accent);
+    border-bottom: 2px solid var(--color-accent);
   }
 
   .dropDownButton {
@@ -91,7 +88,7 @@
 
     &:hover {
       background-color: rgb(245, 243, 243);
-      // border-bottom: 2px solid rgb(12, 163, 9);
+      // border-bottom: 2px solid var(--color-accent);
     }
   }
 
@@ -133,21 +130,5 @@
   .rotateImageBack {
     transform: rotate(0deg);
     transition: transform 0.3s ease;
-  }
-
-  .allLangMenuWrapper {
-    z-index: 100;
-    position: absolute;
-    top: 100;
-    left: 0;
-    width: 100%;
-    // height: fit-content;
-    height: 100px;
-
-    border: 1px solid green;
-    background-color: purple;
-  }
-
-  .svg-icon {
   }
 </style>

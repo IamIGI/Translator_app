@@ -60,7 +60,7 @@
     gap: 0.5rem;
     max-height: 100%;
     border: 1px solid rgba(0, 0, 0, 0.12);
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     padding: 0.5rem;
 
     textarea {
@@ -70,7 +70,7 @@
 
       resize: none;
       outline: none;
-      font-size: 23px;
+      font-size: var(--font-size-normal);
       //   border: 1px solid red;
       margin-right: 35px;
     }

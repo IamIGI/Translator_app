@@ -11,12 +11,7 @@
   import InfoForUser from '$lib/components/InfoForUser.component.svelte';
   import Footer from '$lib/components/Footer.component.svelte';
 
-  export let data: PageData;
-
-  const { supportedLangs } = data;
-
   onMount(() => {
-    console.log(supportedLangs);
     // translate(
     //   'Cześć, co słychać',
     //   TranslateModelSourceEnum.Pl,
