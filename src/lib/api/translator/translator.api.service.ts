@@ -5,13 +5,13 @@ import type {
 } from './generated';
 import translateApi from './translator.api.config';
 
-export async function getSupportedLanguage(): Promise<Translator.LangItem[]> {
-  //   const response =
-  //     await translateApi.translateService.supportedLanguagesSupportedLanguagesGet();
+export async function getSupportedLanguage(): Promise<T_.LangItem[]> {
+  // const response =
+  //   await translateApi.translateService.supportedLanguagesSupportedLanguagesGet();
 
   const response = { supported_languages: SUPPORTED_LANGUAGES_MOCKS };
 
-  const transformedLanguageArray: Translator.LangItem[] = Object.entries(
+  const transformedLanguageArray: T_.LangItem[] = Object.entries(
     response.supported_languages
   ).map(([key, value]) => ({
     text: key,
@@ -25,7 +25,7 @@ export async function translate(
   text: string,
   source: TranslateModelSourceEnum,
   target: TranslateModelTargetEnum
-): Promise<Translator.Translation> {
+): Promise<T_.Translation> {
   const payload = {
     text,
     source,
@@ -33,7 +33,7 @@ export async function translate(
   };
   const response = (await translateApi.translateService.translateTranslatePost(
     payload
-  )) as Translator.Translation;
+  )) as T_.Translation;
 
   return response;
 }

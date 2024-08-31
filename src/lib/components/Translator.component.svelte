@@ -4,15 +4,18 @@
   import LanguageMenu from './LanguageMenu.component.svelte';
   import TranslatorOptions from './TranslatorOptions.component.svelte';
   import xSymbolSVG from '$assets/xSymbol.svg';
+  import translatorStore from '$lib/+stores/translator.store';
 
   export let type: TranslatorType;
+  const languageList = translatorStore.getSupportedLanguageList();
+  const langShortMenu = translatorStore.getLanguageShortMenuList();
   const isSourceTranslator = type === TranslatorType.Source;
 
   let text: string = '';
 </script>
 
 <div class="wrapper">
-  <LanguageMenu />
+  <LanguageMenu supportedLanguages={languageList} {langShortMenu} />
   <div class="translator-wrapper" class:translator-target={!isSourceTranslator}>
     <textarea
       name="translator"
@@ -56,7 +59,7 @@
     align-items: center;
     gap: 0.5rem;
     max-height: 100%;
-    border: 1px solid #6b7280;
+    border: 1px solid rgba(0, 0, 0, 0.12);
     border-radius: 10px;
     padding: 0.5rem;
 
