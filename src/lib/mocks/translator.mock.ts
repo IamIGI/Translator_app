@@ -1,4 +1,4 @@
-export const SUPPORTED_LANGUAGES_MOCKS: Translator.SupportedLanguagesData = {
+export const SUPPORTED_LANGUAGES_MOCKS: T_.SupportedLanguagesData = {
   'Auto Detect': 'auto',
   Afrikaans: 'af',
   Albanian: 'sq',
