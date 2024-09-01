@@ -101,6 +101,14 @@ const translatorStore = () => {
       };
     });
   }
+  function closeLangBigMenu(): void {
+    update((state) => {
+      return {
+        ...state,
+        bigLangMenu: { ...state.bigLangMenu, isOpen: false },
+      };
+    });
+  }
 
   function selectLanguage(
     type: TranslatorType,
@@ -134,6 +142,7 @@ const translatorStore = () => {
     selectLanguage,
     getSelectedSourceLanguage,
     updateTranslatedText,
+    closeLangBigMenu,
   };
 };
 

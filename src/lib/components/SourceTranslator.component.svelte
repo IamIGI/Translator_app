@@ -33,9 +33,9 @@
     }
   }
 
-  async function handleKeydown(event: KeyboardEvent) {
+  async function handleEnter(event: KeyboardEvent) {
+    console.log('handleEnter');
     if (event.key === 'Enter') {
-      event.preventDefault(); // Prevents the default action (e.g., form submission)
       const response = await translate(
         text,
         selectedSourceLanguage,
@@ -63,7 +63,7 @@
     <textarea
       name="translator"
       bind:value={text}
-      on:keydown={handleKeydown}
+      on:keydown={handleEnter}
       maxlength={CONSTS.maxTextSize}
       placeholder="Type your text here... (max 500 characters)"
     />

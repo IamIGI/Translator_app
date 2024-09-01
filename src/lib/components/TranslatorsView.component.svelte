@@ -1,5 +1,6 @@
 <script lang="ts">
   import translatorStore from '$lib/+stores/translator.store';
+
   import LangMenuBig from './LangMenuBig.component.svelte';
   import SourceTranslator from './SourceTranslator.component.svelte';
   import TargetTranslator from './TargetTranslator.component.svelte';
