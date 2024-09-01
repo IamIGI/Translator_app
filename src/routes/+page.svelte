@@ -9,11 +9,7 @@
   import Footer from '$lib/components/Footer.component.svelte';
 
   onMount(() => {
-    // translate(
-    //   'Cześć, co słychać',
-    //   TranslateModelSourceEnum.Pl,
-    //   TranslateModelTargetEnum.En
-    // );
+    // translate('Cz', TranslateModelSourceEnum.Auto, TranslateModelSourceEnum.En);
   });
 </script>
 

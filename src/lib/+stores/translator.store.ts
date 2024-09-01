@@ -3,11 +3,15 @@ import { TranslatorType } from '$lib/models/enums';
 import { get, writable } from 'svelte/store';
 
 export interface TranslatorStore {
+  configuration: {
+    translateOnTimeout: boolean;
+  };
   supportedLanguages: T_.LangItem[];
   bigLangMenu: { isOpen: boolean; type: TranslatorType };
   selectedSourceLanguage: TranslateModelSourceEnum;
   selectedTargetLanguage: TranslateModelSourceEnum;
   langShortMenu: T_.LangItem[];
+  translatedText: string;
 }
 
 function getInitLangShortMenu(supportedLanguages: T_.LangItem[]) {
@@ -35,11 +39,15 @@ const translatorStore = () => {
 
   async function setInitData(supportedLanguages: T_.LangItem[]) {
     const initData: TranslatorStore = {
+      configuration: {
+        translateOnTimeout: false,
+      },
       supportedLanguages,
       langShortMenu: getInitLangShortMenu(supportedLanguages),
       bigLangMenu: { isOpen: false, type: TranslatorType.Source },
       selectedSourceLanguage: TranslateModelSourceEnum.Auto,
       selectedTargetLanguage: TranslateModelSourceEnum.En,
+      translatedText: '',
     };
 
     set(initData);
@@ -111,6 +119,12 @@ const translatorStore = () => {
     return get(store).selectedSourceLanguage;
   }
 
+  function updateTranslatedText(value: string) {
+    update((state) => {
+      return { ...state, translatedText: value };
+    });
+  }
+
   return {
     subscribe,
     setInitData,
@@ -119,6 +133,7 @@ const translatorStore = () => {
     toggleLangBigMenu,
     selectLanguage,
     getSelectedSourceLanguage,
+    updateTranslatedText,
   };
 };
 
