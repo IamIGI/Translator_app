@@ -65,7 +65,7 @@
     cursor: pointer;
 
     &:hover {
-      background-color: rgb(245, 243, 243);
+      background-color: var(--color-hover);
       border-bottom: 2px solid var(--color-accent);
     }
   }
@@ -78,14 +78,11 @@
   .dropDownButton {
     margin-left: 0.7em;
     color: #5f6368;
-
     padding: 10px 10px;
     border-radius: 50%;
-    //   outline: 1px solid red;
 
     &:hover {
-      background-color: rgb(245, 243, 243);
-      // border-bottom: 2px solid var(--color-accent);
+      background-color: var(--color-hover);
     }
   }
 

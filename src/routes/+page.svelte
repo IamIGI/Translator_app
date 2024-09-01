@@ -26,7 +26,7 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    gap: 10px;
+    gap: 2rem;
     height: 100%;
     width: 100%;
     /* outline: 1px solid red; */

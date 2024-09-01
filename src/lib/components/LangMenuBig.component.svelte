@@ -151,7 +151,7 @@
       border-top-left-radius: var(--border-radius);
       border-top-right-radius: var(--border-radius);
       &:hover {
-        background-color: rgb(245, 243, 243);
+        background-color: var(--color-hover);
       }
     }
 
@@ -217,25 +217,6 @@
 
     @media (max-width: 600px) {
       grid-template-columns: repeat(1, minmax(0, 1fr)); /* 1 column on mobile */
-    }
-
-    &::-webkit-scrollbar {
-      width: 12px;
-    }
-
-    &::-webkit-scrollbar-track {
-      /* background: #f1f1f1; */
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background-color: #c2c2c2;
-      border-radius: 10px;
-      border: 2px solid #f1f1f1;
-    }
-
-    &::-webkit-scrollbar-thumb:hover {
-      background-color: #b3b3b3;
-      cursor: pointer;
     }
   }
 
