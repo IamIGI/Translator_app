@@ -1,18 +1,19 @@
 <script lang="ts">
   import translatorStore from '$lib/+stores/translator.store';
-  import { TranslatorType } from '$lib/models/enums';
   import LangMenuBig from './LangMenuBig.component.svelte';
-  import Translator from './Translator.component.svelte';
+  import SourceTranslator from './SourceTranslator.component.svelte';
+  import TargetTranslator from './TargetTranslator.component.svelte';
 </script>
 
 <div class="wrapper">
-  <Translator
-    type={TranslatorType.Source}
-    selectedLanguage={$translatorStore.selectedSourceLanguage}
+  <SourceTranslator
+    selectedSourceLanguage={$translatorStore.selectedSourceLanguage}
+    selectedTargetLanguage={$translatorStore.selectedTargetLanguage}
+    translateOnTimeout={$translatorStore.configuration.translateOnTimeout}
   />
-  <Translator
-    type={TranslatorType.Target}
+  <TargetTranslator
     selectedLanguage={$translatorStore.selectedTargetLanguage}
+    translatedText={$translatorStore.translatedText}
   />
   {#if $translatorStore.bigLangMenu.isOpen}
     <LangMenuBig

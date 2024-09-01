@@ -5,40 +5,29 @@
   import TranslatorOptions from './TranslatorOptions.component.svelte';
   import xSymbolSVG from '$assets/xSymbol.svg';
   import translatorStore from '$lib/+stores/translator.store';
-  import type { TranslateModelSourceEnum } from '$lib/api/translator/generated';
+  import { TranslateModelSourceEnum } from '$lib/api/translator/generated';
 
-  export let type: TranslatorType;
   export let selectedLanguage: TranslateModelSourceEnum;
-  const isSourceTranslator = type === TranslatorType.Source;
-
-  let text: string = '';
+  export let translatedText: string = '';
 </script>
 
 <div class="wrapper">
   <LanguageMenu
     langShortMenu={translatorStore.getLanguageShortMenuList(selectedLanguage)}
     {selectedLanguage}
-    {type}
+    type={TranslatorType.Target}
   />
-  <div class="translator-wrapper" class:translator-target={!isSourceTranslator}>
+  <div class="translator-wrapper translator-target">
     <textarea
       name="translator"
-      bind:value={text}
-      maxlength={CONSTS.maxTextSize}
-      placeholder={isSourceTranslator
-        ? 'Type your text here... (max 500 characters)'
-        : ''}
-      class:translator-target={!isSourceTranslator}
+      bind:value={translatedText}
+      placeholder="Your translated text"
+      class="translator-target"
     />
-    {#if text.length > 0 && isSourceTranslator}
-      <button class="remove-mark" on:click={() => (text = '')}>
-        <img src={xSymbolSVG} class="svg-icon" alt="removeMark" />
-      </button>
-    {/if}
     <TranslatorOptions
-      letterCounter={text.length}
+      letterCounter={translatedText.length}
       maxTextSize={CONSTS.maxTextSize}
-      {type}
+      type={TranslatorType.Target}
     />
   </div>
 </div>
@@ -77,20 +66,6 @@
       font-size: var(--font-size-normal);
       //   border: 1px solid red;
       margin-right: 35px;
-    }
-  }
-
-  .remove-mark {
-    position: absolute;
-    top: 10px;
-    right: 12px;
-    background-color: transparent;
-    cursor: pointer;
-
-    img {
-      height: 23px;
-      width: 23px;
-      background-color: transparent;
     }
   }
 
