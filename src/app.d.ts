@@ -2,10 +2,7 @@
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
 
-import type {
-  TranslateModelSourceEnum,
-  TranslateModelTargetEnum,
-} from '$lib/api/translator/generated';
+import type { TranslateModelSourceEnum } from '$lib/api/translator/generated';
 
 declare global {
   namespace T_ {
@@ -17,6 +14,14 @@ declare global {
         text: string;
         translation: string;
       };
+    }
+
+    interface TranslationLS {
+      date: string;
+      source: { id: TranslateModelSourceEnum; lang: string };
+      target: { id: TranslateModelSourceEnum; lang: string };
+      text: string;
+      translation: string;
     }
 
     interface SupportedLanguagesData {
