@@ -4,13 +4,16 @@
   import xSymbolSVG from '$assets/xSymbol.svg';
   import translatorStore from '$lib/+stores/translator.store';
   import { TranslatorType } from '$lib/models/enums';
+  import { onDestroy, onMount } from 'svelte';
+  import type { TranslateModelSourceEnum } from '$lib/api/translator/generated';
 
   export let supportedLanguages: T_.LangItem[];
   export let type: TranslatorType;
 
+  let searchInput: HTMLInputElement;
+  let componentElement: HTMLElement;
   let searchTerm = '';
   let filteredLanguages: T_.LangItem[] = supportedLanguages;
-
   let searchTimeout: number;
 
   $: {
@@ -27,17 +30,58 @@
     }
   }
 
+  onMount(() => {
+    if (searchInput) searchInput.focus();
+    setTimeout(() => {
+      document.addEventListener('click', handleClickOutside);
+    }, 100);
+  });
+
+  onDestroy(() => {
+    document.removeEventListener('click', handleClickOutside);
+  });
+
+  function handleClickOutside(event: MouseEvent) {
+    if (componentElement && !componentElement.contains(event.target as Node)) {
+      translatorStore.closeLangBigMenu();
+      return;
+    }
+  }
+
   function handleInput(event: Event) {
     searchTerm = (event.target as HTMLInputElement).value;
   }
+
+  function selectLanguage(
+    type: TranslatorType,
+    langId: TranslateModelSourceEnum
+  ) {
+    translatorStore.toggleLangBigMenu(type);
+    translatorStore.selectLanguage(type, langId);
+  }
+
+  async function handleEsc(event: KeyboardEvent) {
+    if (event.key === 'Escape') translatorStore.closeLangBigMenu();
+  }
 </script>
 
-<div class="wrapper">
+<div
+  class="wrapper"
+  role="menu"
+  tabindex="0"
+  on:keydown={handleEsc}
+  bind:this={componentElement}
+>
   <div class="search-wrapper">
     <button on:click={() => translatorStore.toggleLangBigMenu(type)}>
       <img src={leftArrowSVG} alt="leftArrow" class="icon-svg" />
     </button>
-    <input type="text" placeholder="Search language" on:input={handleInput} />
+    <input
+      type="text"
+      placeholder="Search language"
+      on:input={handleInput}
+      bind:this={searchInput}
+    />
     {#if searchTerm.length > 0}
       <button on:click={() => (searchTerm = '')}>
         <img src={xSymbolSVG} alt="XMark" class="icon-svg" />
@@ -56,7 +100,7 @@
                 ? 'selectedSourceLanguage'
                 : 'selectedTargetLanguage'
             ] === lang.value}
-            on:click={() => translatorStore.selectLanguage(type, lang.value)}
+            on:click={() => selectLanguage(type, lang.value)}
           >
             <div class="accept-wrapper">
               {#if $translatorStore[type === TranslatorType.Source ? 'selectedSourceLanguage' : 'selectedTargetLanguage'] === lang.value}
