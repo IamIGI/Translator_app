@@ -11,6 +11,7 @@
     selectedSourceLanguage={$translatorStore.selectedSourceLanguage}
     selectedTargetLanguage={$translatorStore.selectedTargetLanguage}
     translateOnTimeout={$translatorStore.configuration.translateOnTimeout}
+    supportedLanguages={translatorStore.getSupportedLanguageList()}
   />
   <TargetTranslator
     selectedLanguage={$translatorStore.selectedTargetLanguage}

@@ -7,10 +7,13 @@
   import translatorStore from '$lib/+stores/translator.store';
   import { TranslateModelSourceEnum } from '$lib/api/translator/generated';
   import { translate } from '$lib/api/translator/translator.api.service';
+  import payloadMiddlewareUtils from '$lib/utils/payloadMiddleware.utils';
+  import localStorageDataUtils from '$lib/utils/localStorageData.utils';
 
   export let translateOnTimeout: boolean;
   export let selectedSourceLanguage: TranslateModelSourceEnum;
   export let selectedTargetLanguage: TranslateModelSourceEnum;
+  export let supportedLanguages: T_.LangItem[];
 
   let text: string = '';
 
@@ -33,7 +36,9 @@
     }
   }
 
+  //When user hit Enter button, then save it to user history
   async function handleEnter(event: KeyboardEvent) {
+    const timestamp = new Date();
     console.log('handleEnter');
     if (event.key === 'Enter') {
       const response = await translate(
@@ -42,6 +47,14 @@
         selectedTargetLanguage
       );
       translatorStore.updateTranslatedText(response.translations.translation);
+      const LS_payload = payloadMiddlewareUtils.translation_TranslationLS(
+        response,
+        timestamp,
+        supportedLanguages
+      );
+      console.log(LS_payload);
+      translatorStore.updateUserHistory(LS_payload);
+      localStorageDataUtils.saveUserTranslation(LS_payload);
     }
   }
 

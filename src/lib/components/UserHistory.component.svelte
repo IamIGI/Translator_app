@@ -4,6 +4,8 @@
   import dotMenuSVG from '$assets/dotMenu.svg';
   import rightArrowSVG from '$assets/rightArrow.svg';
 
+  export let data: T_.TranslationLS[];
+
   const mock: T_.TranslationLS[] = [
     {
       date: '30.03.2024',
@@ -53,7 +55,7 @@
 
 <div class="wrapper">
   <div class="list-wrapper">
-    {#each mock as translation}
+    {#each data as translation}
       <div class="item-wrapper">
         <div class="top-menu">
           <div class="top-menu-languages">
