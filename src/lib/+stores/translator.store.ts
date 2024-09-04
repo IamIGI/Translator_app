@@ -13,6 +13,7 @@ export interface TranslatorStore {
   selectedTargetLanguage: TranslateModelSourceEnum;
   langShortMenu: T_.LangItem[];
   translatedText: string;
+  sourceText: string;
   userHistory: T_.TranslationLS[];
 }
 
@@ -50,6 +51,7 @@ const translatorStore = () => {
       selectedSourceLanguage: TranslateModelSourceEnum.Auto,
       selectedTargetLanguage: TranslateModelSourceEnum.En,
       translatedText: '',
+      sourceText: '',
       userHistory: localStorageDataUtils.getUserTranslationHistory(),
     };
 
@@ -126,20 +128,34 @@ const translatorStore = () => {
     });
   }
 
+  function swapSelectedLanguages() {
+    //Swap text
+    const { sourceText, translatedText } = get(store);
+    updateTranslatedText(translatedText, sourceText);
+
+    //Swap buttons
+    update((state) => {
+      const tempSourceLanguage = state.selectedSourceLanguage;
+      state.selectedSourceLanguage = state.selectedTargetLanguage;
+      state.selectedTargetLanguage = tempSourceLanguage;
+
+      return state;
+    });
+  }
+
   function getSelectedSourceLanguage() {
     return get(store).selectedSourceLanguage;
   }
 
-  function updateTranslatedText(value: string) {
+  function updateTranslatedText(provided: string, translated: string) {
     update((state) => {
-      return { ...state, translatedText: value };
+      return { ...state, translatedText: translated, sourceText: provided };
     });
   }
 
   function updateUserHistory(translation: T_.TranslationLS) {
     update((state) => {
       const updateHistory = [...state.userHistory, translation];
-      console.log(updateHistory);
       return {
         ...state,
         userHistory: updateHistory,
@@ -158,6 +174,7 @@ const translatorStore = () => {
     updateTranslatedText,
     closeLangBigMenu,
     updateUserHistory,
+    swapSelectedLanguages,
   };
 };
 

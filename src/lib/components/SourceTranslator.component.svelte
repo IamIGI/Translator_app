@@ -14,14 +14,21 @@
   export let selectedSourceLanguage: TranslateModelSourceEnum;
   export let selectedTargetLanguage: TranslateModelSourceEnum;
   export let supportedLanguages: T_.LangItem[];
+  export let translateCall: boolean;
 
   let text: string = '';
 
   let searchTimeout: number;
 
-  $: text, translateOnTimeout && translateText();
+  $: text, translateOnTimeout && translateTexOnKeyStroke();
+  $: translateCall, handleCallForTranslate();
 
-  function translateText() {
+  function handleCallForTranslate() {
+    console.log('translateCall: ', translateCall);
+    if (translateCall) translateText();
+  }
+
+  function translateTexOnKeyStroke() {
     if (text.length >= 2) {
       if (searchTimeout) clearTimeout(searchTimeout);
 
@@ -31,37 +38,49 @@
           selectedSourceLanguage,
           selectedTargetLanguage
         );
-        translatorStore.updateTranslatedText(response.translations.translation);
+        translatorStore.updateTranslatedText(
+          text,
+          response.translations.translation
+        );
       }, 200);
     }
   }
 
   //When user hit Enter button, then save it to user history
   async function handleEnter(event: KeyboardEvent) {
+    if (event.key === 'Enter') await translateText();
+  }
+
+  async function translateText() {
     const timestamp = new Date();
-    console.log('handleEnter');
-    if (event.key === 'Enter') {
-      const response = await translate(
-        text,
-        selectedSourceLanguage,
-        selectedTargetLanguage
-      );
-      translatorStore.updateTranslatedText(response.translations.translation);
-      const LS_payload = payloadMiddlewareUtils.translation_TranslationLS(
-        response,
-        timestamp,
-        supportedLanguages
-      );
-      console.log(LS_payload);
-      translatorStore.updateUserHistory(LS_payload);
-      localStorageDataUtils.saveUserTranslation(LS_payload);
-    }
+    const response = await translate(
+      text,
+      selectedSourceLanguage,
+      selectedTargetLanguage
+    );
+    translatorStore.updateTranslatedText(
+      text,
+      response.translations.translation
+    );
+
+    const LS_payload = payloadMiddlewareUtils.translation_TranslationLS(
+      response,
+      timestamp,
+      supportedLanguages
+    );
+    translatorStore.updateUserHistory(LS_payload);
+    localStorageDataUtils.saveUserTranslation(LS_payload);
   }
 
   function clearText() {
     text = '';
-    translatorStore.updateTranslatedText('');
+    translatorStore.updateTranslatedText('', '');
   }
+
+  translatorStore.subscribe((state) => {
+    const { sourceText } = state;
+    if (sourceText !== text) text = sourceText;
+  });
 </script>
 
 <div class="wrapper">
@@ -95,6 +114,7 @@
 
 <style lang="scss">
   .wrapper {
+    outline: 1px solid blue;
     flex: 1;
     display: flex;
     flex-direction: column;
