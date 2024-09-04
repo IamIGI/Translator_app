@@ -34,6 +34,7 @@
 
 <style lang="scss">
   .wrapper {
+    /* outline: 1px solid green; */
     flex: 1;
     display: flex;
     flex-direction: column;

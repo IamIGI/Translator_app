@@ -1,9 +1,20 @@
 <script lang="ts">
   import translatorStore from '$lib/+stores/translator.store';
-
   import LangMenuBig from './LangMenuBig.component.svelte';
   import SourceTranslator from './SourceTranslator.component.svelte';
   import TargetTranslator from './TargetTranslator.component.svelte';
+  import translateSVG from '$assets/translate.svg';
+  import switchSVG from '$assets/arrows-horizontal.svg';
+
+  let callForTranslate: boolean = false;
+
+  function handleCallForTranslate() {
+    callForTranslate = true;
+    const timeoutInstance = setTimeout(() => {
+      callForTranslate = false;
+      return clearTimeout(timeoutInstance);
+    }, 100);
+  }
 </script>
 
 <div class="wrapper">
@@ -12,7 +23,16 @@
     selectedTargetLanguage={$translatorStore.selectedTargetLanguage}
     translateOnTimeout={$translatorStore.configuration.translateOnTimeout}
     supportedLanguages={translatorStore.getSupportedLanguageList()}
+    translateCall={callForTranslate}
   />
+  <div class="mid-buttons">
+    <button class="mid-button" on:click={translatorStore.swapSelectedLanguages}>
+      <img src={switchSVG} alt="switch" />
+    </button>
+    <button class="mid-button" on:click={handleCallForTranslate}>
+      <img src={translateSVG} alt="translate" />
+    </button>
+  </div>
   <TargetTranslator
     selectedLanguage={$translatorStore.selectedTargetLanguage}
     translatedText={$translatorStore.translatedText}
@@ -28,11 +48,11 @@
 <style lang="scss">
   .wrapper {
     position: relative;
-    /* outline: 1px solid red; */
+    outline: 1px solid red;
     margin: 0 2.5rem;
     display: flex;
     flex-direction: row;
-    gap: 2.5rem;
+    gap: 0.6rem;
     justify-content: center;
     align-items: center;
 
@@ -43,6 +63,30 @@
     @media (max-width: 850px) {
       margin: 0 1rem;
       gap: 1rem;
+    }
+  }
+
+  .mid-buttons {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10rem;
+  }
+
+  .mid-button {
+    padding: 10px 10px 7px 10px;
+    border-radius: 25%;
+
+    img {
+      $size: 25px;
+      width: $size;
+      height: $size;
+    }
+
+    &:hover {
+      background-color: rgb(234, 234, 234);
     }
   }
 </style>
