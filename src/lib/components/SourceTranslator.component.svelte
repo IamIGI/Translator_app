@@ -68,8 +68,8 @@
       timestamp,
       supportedLanguages
     );
-    translatorStore.updateUserHistory(LS_payload);
-    localStorageDataUtils.saveUserTranslation(LS_payload);
+    const userHistory = localStorageDataUtils.saveUserTranslation(LS_payload);
+    translatorStore.setUserHistory(userHistory);
   }
 
   function clearText() {
