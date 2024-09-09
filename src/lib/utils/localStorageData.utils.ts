@@ -2,19 +2,19 @@ enum LSKey {
   userHistory = 'userTranslateHistory',
 }
 
-function saveUserTranslation(translation: T_.TranslationLS) {
+function saveUserTranslation(
+  translation: T_.TranslationLS
+): T_.TranslationLS[] {
   console.log('saveUserTranslation');
-  if (typeof localStorage === 'undefined') return;
+  const historyArray = getUserTranslationHistory();
 
-  const existingHistory = localStorage.getItem(LSKey.userHistory);
-  const historyArray: T_.TranslationLS[] = existingHistory
-    ? JSON.parse(existingHistory)
-    : [];
   historyArray.push(translation);
   localStorage.setItem(LSKey.userHistory, JSON.stringify(historyArray));
+
+  return historyArray;
 }
 
-function getUserTranslationHistory() {
+function getUserTranslationHistory(): T_.TranslationLS[] {
   console.log('getUserTranslationHistory');
   if (typeof localStorage === 'undefined') return [];
 
@@ -24,7 +24,17 @@ function getUserTranslationHistory() {
   return JSON.parse(data) as T_.TranslationLS[];
 }
 
+function deleteTranslationHistoryItem(id: string): T_.TranslationLS[] {
+  console.log('deleteTranslationHistoryItem');
+  const historyArray = getUserTranslationHistory();
+  const updatedHistoryArray = historyArray.filter((item) => item.id !== id);
+  localStorage.setItem(LSKey.userHistory, JSON.stringify(updatedHistoryArray));
+
+  return updatedHistoryArray;
+}
+
 export default {
   saveUserTranslation,
   getUserTranslationHistory,
+  deleteTranslationHistoryItem,
 };

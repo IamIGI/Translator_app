@@ -4,7 +4,7 @@
   import xSymbolSVG from '$assets/xSymbol.svg';
   import translatorStore from '$lib/+stores/translator.store';
   import { TranslatorType } from '$lib/models/enums';
-  import { onDestroy, onMount } from 'svelte';
+  import { onMount } from 'svelte';
   import type { TranslateModelSourceEnum } from '$lib/api/translator/generated';
 
   export let supportedLanguages: T_.LangItem[];
@@ -35,10 +35,10 @@
     setTimeout(() => {
       document.addEventListener('click', handleClickOutside);
     }, 100);
-  });
 
-  onDestroy(() => {
-    document.removeEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
   });
 
   function handleClickOutside(event: MouseEvent) {

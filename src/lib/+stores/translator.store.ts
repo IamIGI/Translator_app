@@ -153,12 +153,11 @@ const translatorStore = () => {
     });
   }
 
-  function updateUserHistory(translation: T_.TranslationLS) {
+  function setUserHistory(history: T_.TranslationLS[]) {
     update((state) => {
-      const updateHistory = [...state.userHistory, translation];
       return {
         ...state,
-        userHistory: updateHistory,
+        userHistory: history,
       };
     });
   }
@@ -173,7 +172,7 @@ const translatorStore = () => {
     getSelectedSourceLanguage,
     updateTranslatedText,
     closeLangBigMenu,
-    updateUserHistory,
+    setUserHistory,
     swapSelectedLanguages,
   };
 };

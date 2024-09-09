@@ -1,61 +1,55 @@
 <script lang="ts">
-  import { TranslateModelSourceEnum } from '$lib/api/translator/generated';
   import starSVG from '$assets/star.svg';
   import dotMenuSVG from '$assets/dotMenu.svg';
   import rightArrowSVG from '$assets/rightArrow.svg';
+  import { onDestroy, onMount } from 'svelte';
+  import localStorageDataUtils from '$lib/utils/localStorageData.utils';
+  import translatorStore from '$lib/+stores/translator.store';
 
   export let data: T_.TranslationLS[];
 
-  const mock: T_.TranslationLS[] = [
-    {
-      date: '30.03.2024',
-      source: { id: TranslateModelSourceEnum.En, lang: 'english' },
-      target: { id: TranslateModelSourceEnum.Pl, lang: 'polish' },
-      text: 'Cześc co słychać',
-      translation: "Hello, what's up?",
-    },
-    {
-      date: '30.03.2024',
-      source: { id: TranslateModelSourceEnum.En, lang: 'english' },
-      target: { id: TranslateModelSourceEnum.Pl, lang: 'polish' },
-      text: 'Nie ma mnie w domu',
-      translation: "I'm not at home",
-    },
-    {
-      date: '30.03.2024',
-      source: { id: TranslateModelSourceEnum.En, lang: 'english' },
-      target: { id: TranslateModelSourceEnum.Pl, lang: 'polish' },
-      text: 'Piecze ziemniaki',
-      translation: 'Baking potatoes',
-    },
-    {
-      date: '30.03.2024',
-      source: { id: TranslateModelSourceEnum.En, lang: 'english' },
-      target: { id: TranslateModelSourceEnum.Pl, lang: 'polish' },
-      text: 'Chodze na silownie',
-      translation: 'I go to the gym',
-    },
-    {
-      date: '30.03.2024',
-      source: { id: TranslateModelSourceEnum.En, lang: 'english' },
-      target: { id: TranslateModelSourceEnum.Pl, lang: 'polish' },
-      text: 'Głośniki są głośne ale da sie wytzymać',
-      translation: 'The speakers are loud but bearable',
-    },
-    {
-      date: '30.03.2024',
-      source: { id: TranslateModelSourceEnum.En, lang: 'english' },
-      target: { id: TranslateModelSourceEnum.Pl, lang: 'polish' },
-      text: 'Ten problem może wystąpić, jeśli te funkcje zostaną błędnie wywołane w bloku kodu, który nie jest bezpośrednio wykonywany podczas inicjalizacji komponentu. Na przykład umieszczenie ich wewnątrz bloku warunkowego lub wewnątrz funkcji asynchronicznej może spowodować ten problem.',
-      translation:
-        "This issue can arise if these functions are mistakenly called within a block of code that is not directly executed during the component's initialization. For example, placing them inside a conditional block or inside an asynchronous function can cause this problem.",
-    },
-  ];
+  let isItemHistoryMenuVisible: number | undefined = undefined;
+
+  // Reference to the currently visible history menu
+  let currentHistoryMenu: HTMLDivElement | null = null;
+
+  const handleClickOutside = (event: MouseEvent) => {
+    // If the current history menu is open and the clicked element is outside of it, close the menu
+    console.log(currentHistoryMenu);
+    console.log(isItemHistoryMenuVisible);
+    if (
+      isItemHistoryMenuVisible != undefined &&
+      currentHistoryMenu &&
+      !currentHistoryMenu.contains(event.target as Node)
+    ) {
+      console.log('set to undefined');
+      isItemHistoryMenuVisible = undefined;
+    }
+  };
+
+  onMount(() => {
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  });
+
+  function handleOpenMenu(index: number, event: MouseEvent) {
+    event.stopPropagation();
+    isItemHistoryMenuVisible = index;
+  }
+
+  function deleteUserHistoryItem(id: string) {
+    const updatedHistory =
+      localStorageDataUtils.deleteTranslationHistoryItem(id);
+    translatorStore.setUserHistory(updatedHistory);
+    isItemHistoryMenuVisible = undefined;
+  }
 </script>
 
 <div class="wrapper">
   <div class="list-wrapper">
-    {#each data as translation}
+    {#each data as translation, index}
       <div class="item-wrapper">
         <div class="top-menu">
           <div class="top-menu-languages">
@@ -64,8 +58,24 @@
             <span>{translation.target.lang}</span>
           </div>
           <div class="top-menu-options">
-            <img src={starSVG} alt="star" class="options-svg" />
-            <img src={dotMenuSVG} alt="dotMenu" class="options-svg" />
+            <button>
+              <img src={starSVG} alt="star" class="options-svg" />
+            </button>
+            <button on:click={(e) => handleOpenMenu(index, e)}>
+              <img src={dotMenuSVG} alt="dotMenu" class="options-svg" />
+            </button>
+
+            {#if isItemHistoryMenuVisible === index}
+              <div class="history-menu" bind:this={currentHistoryMenu}>
+                <ul>
+                  <!-- svelte-ignore a11y-click-events-have-key-events -->
+                  <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+                  <li on:click={() => deleteUserHistoryItem(translation.id)}>
+                    delete
+                  </li>
+                </ul>
+              </div>
+            {/if}
           </div>
         </div>
         <div class="text-wrapper">
@@ -142,6 +152,7 @@
       justify-content: flex-start;
       gap: 5px;
       align-items: center;
+      position: relative;
 
       .options-svg {
         width: 30px;
@@ -152,6 +163,35 @@
 
         &:hover {
           background-color: var(--color-hover);
+        }
+      }
+    }
+
+    .history-menu {
+      padding: 5px 10px;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      display: flex;
+      background-color: white;
+
+      border-radius: 3px;
+      box-shadow:
+        0 3px 5px -1px rgba(0, 0, 0, 0.2),
+        0 6px 10px 0 rgba(0, 0, 0, 0.14),
+        0 1px 18px 0 rgba(0, 0, 0, 0.12);
+
+      /* border: 1px solid red; */
+      ul {
+        li {
+          padding: 0;
+          margin: 0;
+          padding: 3px 10px;
+          border-bottom: 1px solid transparent;
+          &:hover {
+            cursor: pointer;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+          }
         }
       }
     }
