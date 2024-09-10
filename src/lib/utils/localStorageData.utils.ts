@@ -1,3 +1,5 @@
+import sortUtils from './sort.utils';
+
 enum LSKey {
   userHistory = 'userTranslateHistory',
 }
@@ -8,7 +10,7 @@ function saveUserTranslation(
   console.log('saveUserTranslation');
   const historyArray = getUserTranslationHistory();
 
-  historyArray.push(translation);
+  historyArray.unshift(translation);
   localStorage.setItem(LSKey.userHistory, JSON.stringify(historyArray));
 
   return historyArray;
@@ -21,7 +23,12 @@ function getUserTranslationHistory(): T_.TranslationLS[] {
   const data = localStorage.getItem(LSKey.userHistory);
   if (!data) return [];
 
-  return JSON.parse(data) as T_.TranslationLS[];
+  const parsedData = JSON.parse(data);
+  const sortedData = sortUtils.sortByDate(
+    parsedData,
+    'newest'
+  ) as unknown as T_.TranslationLS[];
+  return sortedData;
 }
 
 function deleteTranslationHistoryItem(id: string): T_.TranslationLS[] {
