@@ -2,9 +2,10 @@
   import starSVG from '$assets/star.svg';
   import dotMenuSVG from '$assets/dotMenu.svg';
   import rightArrowSVG from '$assets/rightArrow.svg';
-  import { onDestroy, onMount } from 'svelte';
+  import { onMount } from 'svelte';
   import localStorageDataUtils from '$lib/utils/localStorageData.utils';
   import translatorStore from '$lib/+stores/translator.store';
+  import dateUtils from '$lib/utils/date.utils';
 
   export let data: T_.TranslationLS[];
 
@@ -15,14 +16,12 @@
 
   const handleClickOutside = (event: MouseEvent) => {
     // If the current history menu is open and the clicked element is outside of it, close the menu
-    console.log(currentHistoryMenu);
-    console.log(isItemHistoryMenuVisible);
+
     if (
       isItemHistoryMenuVisible != undefined &&
       currentHistoryMenu &&
       !currentHistoryMenu.contains(event.target as Node)
     ) {
-      console.log('set to undefined');
       isItemHistoryMenuVisible = undefined;
     }
   };
@@ -83,7 +82,7 @@
           <p>{translation.translation}</p>
         </div>
         <div class="date-wrapper">
-          <p>{translation.date}</p>
+          <p>{dateUtils.formatDateToDDMMYYYY(new Date(translation.date))}</p>
         </div>
       </div>
     {/each}

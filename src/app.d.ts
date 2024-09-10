@@ -18,7 +18,7 @@ declare global {
 
     interface TranslationLS {
       id: string;
-      date: string;
+      date: Date;
       source: { id: TranslateModelSourceEnum; lang: string };
       target: { id: TranslateModelSourceEnum; lang: string };
       text: string;

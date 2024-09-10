@@ -1,5 +1,4 @@
 import type { TranslateModelSourceEnum } from '$lib/api/translator/generated';
-import dateUtils from './date.utils';
 import { v4 as uuidv4 } from 'uuid';
 
 function translation_TranslationLS(
@@ -25,7 +24,7 @@ function translation_TranslationLS(
 
   const targetObject: T_.TranslationLS = {
     id: uuidv4(),
-    date: dateUtils.formatDateToDDMMYYYY(timestamp),
+    date: timestamp,
     source: { id: source, lang: langName(source) },
     target: { id: target, lang: langName(target) },
     text,
