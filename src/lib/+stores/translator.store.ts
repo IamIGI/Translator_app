@@ -1,6 +1,8 @@
 import { TranslateModelSourceEnum } from '$lib/api/translator/generated';
 import { TranslatorType } from '$lib/models/enums';
-import localStorageDataUtils from '$lib/utils/localStorageData.utils';
+import localStorageDataUtils, {
+  LSKey,
+} from '$lib/utils/localStorageData.utils';
 import { get, writable } from 'svelte/store';
 
 export interface TranslatorStore {
@@ -15,6 +17,7 @@ export interface TranslatorStore {
   translatedText: string;
   sourceText: string;
   userHistory: T_.TranslationLS[];
+  userSavedHistory: T_.TranslationLS[];
 }
 
 function getInitLangShortMenu(supportedLanguages: T_.LangItem[]) {
@@ -52,7 +55,8 @@ const translatorStore = () => {
       selectedTargetLanguage: TranslateModelSourceEnum.En,
       translatedText: '',
       sourceText: '',
-      userHistory: localStorageDataUtils.getUserTranslationHistory(),
+      userHistory: localStorageDataUtils.getData(LSKey.userHistory),
+      userSavedHistory: localStorageDataUtils.getData(LSKey.userSavedHistory),
     };
 
     set(initData);
@@ -162,6 +166,21 @@ const translatorStore = () => {
     });
   }
 
+  function setUserSavedHistory(history: T_.TranslationLS[]) {
+    update((state) => {
+      return {
+        ...state,
+        userSavedHistory: history,
+      };
+    });
+  }
+
+  function getUserHistoryItem(id: string) {
+    const userHistoryData = get(store).userHistory;
+    if (userHistoryData.length === 0) return undefined;
+    return userHistoryData.find((item) => item.id === id);
+  }
+
   return {
     subscribe,
     setInitData,
@@ -174,6 +193,8 @@ const translatorStore = () => {
     closeLangBigMenu,
     setUserHistory,
     swapSelectedLanguages,
+    setUserSavedHistory,
+    getUserHistoryItem,
   };
 };
 

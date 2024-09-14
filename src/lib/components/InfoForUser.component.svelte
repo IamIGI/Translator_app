@@ -6,7 +6,7 @@
 
 <div class="wrapper">
   <UserHistory data={$translatorStore.userHistory} />
-  <UserSaved />
+  <UserSaved data={$translatorStore.userSavedHistory} />
 </div>
 
 <style lang="scss">
@@ -19,7 +19,7 @@
     flex-direction: row;
     justify-content: center;
     align-items: flex-start;
-
+    gap: 2em;
     @media (max-width: 1750px) {
       margin: 0 4%;
       width: calc(100% - 4%);

@@ -1,7 +1,9 @@
 <script lang="ts">
   import starSVG from '$assets/star.svg';
   import dotMenuSVG from '$assets/dotMenu.svg';
-  import localStorageDataUtils from '$lib/utils/localStorageData.utils';
+  import localStorageDataUtils, {
+    LSKey,
+  } from '$lib/utils/localStorageData.utils';
   import translatorStore from '$lib/+stores/translator.store';
   import { onMount } from 'svelte';
 
@@ -42,16 +44,33 @@
   };
 
   function deleteUserHistoryItem(id: string) {
-    const updatedHistory =
-      localStorageDataUtils.deleteTranslationHistoryItem(id);
+    const updatedHistory = localStorageDataUtils.deleteItemFromData(
+      LSKey.userHistory,
+      id
+    );
     translatorStore.setUserHistory(updatedHistory);
 
     onItemMenuVisibleChange(undefined);
   }
+
+  function saveTranslation(id: string) {
+    console.log('save');
+    const translation = translatorStore.getUserHistoryItem(id);
+    if (!translation) {
+      console.error('Could not save given translation');
+      return;
+    }
+
+    const userSavedHistory = localStorageDataUtils.saveData(
+      LSKey.userSavedHistory,
+      translation
+    );
+    translatorStore.setUserSavedHistory(userSavedHistory);
+  }
 </script>
 
 <div class="wrapper">
-  <button>
+  <button on:click={(e) => saveTranslation(translationId)}>
     <img src={starSVG} alt="star" class="options-svg" />
   </button>
   <button on:click={(e) => handleOpenMenu(index, e)}>

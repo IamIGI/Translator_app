@@ -1,26 +1,28 @@
 import sortUtils from './sort.utils';
 
-enum LSKey {
+export enum LSKey {
   userHistory = 'userTranslateHistory',
+  userSavedHistory = 'useSavedTranslateHistory',
 }
 
-function saveUserTranslation(
+function saveData(
+  key: LSKey,
   translation: T_.TranslationLS
 ): T_.TranslationLS[] {
-  console.log('saveUserTranslation');
-  const historyArray = getUserTranslationHistory();
+  console.log('saveData');
+  const historyArray = getData(key);
 
   historyArray.unshift(translation);
-  localStorage.setItem(LSKey.userHistory, JSON.stringify(historyArray));
+  localStorage.setItem(key, JSON.stringify(historyArray));
 
   return historyArray;
 }
 
-function getUserTranslationHistory(): T_.TranslationLS[] {
-  console.log('getUserTranslationHistory');
+function getData(key: LSKey): T_.TranslationLS[] {
+  console.log('getData');
   if (typeof localStorage === 'undefined') return [];
 
-  const data = localStorage.getItem(LSKey.userHistory);
+  const data = localStorage.getItem(key);
   if (!data) return [];
 
   const parsedData = JSON.parse(data);
@@ -31,17 +33,17 @@ function getUserTranslationHistory(): T_.TranslationLS[] {
   return sortedData;
 }
 
-function deleteTranslationHistoryItem(id: string): T_.TranslationLS[] {
-  console.log('deleteTranslationHistoryItem');
-  const historyArray = getUserTranslationHistory();
-  const updatedHistoryArray = historyArray.filter((item) => item.id !== id);
-  localStorage.setItem(LSKey.userHistory, JSON.stringify(updatedHistoryArray));
+function deleteItemFromData(key: LSKey, id: string): T_.TranslationLS[] {
+  console.log('deleteItemFromData');
+  const data = getData(key);
+  const updatedArray = data.filter((item) => item.id !== id);
+  localStorage.setItem(key, JSON.stringify(updatedArray));
 
-  return updatedHistoryArray;
+  return updatedArray;
 }
 
 export default {
-  saveUserTranslation,
-  getUserTranslationHistory,
-  deleteTranslationHistoryItem,
+  saveData,
+  getData,
+  deleteItemFromData,
 };

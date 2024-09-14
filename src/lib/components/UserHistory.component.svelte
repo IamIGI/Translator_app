@@ -5,7 +5,7 @@
   export let data: T_.TranslationLS[];
 
   let isItemMenuVisible: number | undefined = undefined;
-  function handleItemMenuVisibaleChange(value: number | undefined) {
+  function handleItemMenuVisibleChange(value: number | undefined) {
     isItemMenuVisible = value;
   }
 </script>
@@ -19,7 +19,7 @@
       {translationId}
       {index}
       {isItemMenuVisible}
-      onItemMenuVisibleChange={handleItemMenuVisibaleChange}
+      onItemMenuVisibleChange={handleItemMenuVisibleChange}
     />
   </TranslationList>
 </div>
