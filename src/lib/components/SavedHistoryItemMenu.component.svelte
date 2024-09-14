@@ -9,10 +9,10 @@
 
   function deleteItem(id: string, event: MouseEvent) {
     const updatedHistory = localStorageDataUtils.deleteItemFromData(
-      LSKey.userSavedHistory,
+      LSKey.userFavorites,
       id
     );
-    translatorStore.setUserSavedHistory(updatedHistory);
+    translatorStore.setUserFavorites(updatedHistory);
 
     event.stopPropagation();
   }

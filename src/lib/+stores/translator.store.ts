@@ -17,7 +17,7 @@ export interface TranslatorStore {
   translatedText: string;
   sourceText: string;
   userHistory: T_.TranslationLS[];
-  userSavedHistory: T_.TranslationLS[];
+  userFavorites: T_.TranslationLS[];
 }
 
 function getInitLangShortMenu(supportedLanguages: T_.LangItem[]) {
@@ -56,7 +56,7 @@ const translatorStore = () => {
       translatedText: '',
       sourceText: '',
       userHistory: localStorageDataUtils.getData(LSKey.userHistory),
-      userSavedHistory: localStorageDataUtils.getData(LSKey.userSavedHistory),
+      userFavorites: localStorageDataUtils.getData(LSKey.userFavorites),
     };
 
     set(initData);
@@ -166,11 +166,11 @@ const translatorStore = () => {
     });
   }
 
-  function setUserSavedHistory(history: T_.TranslationLS[]) {
+  function setUserFavorites(history: T_.TranslationLS[]) {
     update((state) => {
       return {
         ...state,
-        userSavedHistory: history,
+        userFavorites: history,
       };
     });
   }
@@ -193,7 +193,7 @@ const translatorStore = () => {
     closeLangBigMenu,
     setUserHistory,
     swapSelectedLanguages,
-    setUserSavedHistory,
+    setUserFavorites,
     getUserHistoryItem,
   };
 };

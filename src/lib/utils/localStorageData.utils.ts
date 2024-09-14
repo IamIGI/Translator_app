@@ -2,7 +2,7 @@ import sortUtils from './sort.utils';
 
 export enum LSKey {
   userHistory = 'userTranslateHistory',
-  userSavedHistory = 'useSavedTranslateHistory',
+  userFavorites = 'userTranslatedFavorites',
 }
 
 function saveData(

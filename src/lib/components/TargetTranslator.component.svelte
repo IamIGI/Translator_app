@@ -14,17 +14,17 @@
   export let translatedText: string = '';
   export let translatedTextData: T_.TranslationLS;
 
-  function saveTranslation() {
+  function saveFavorites() {
     console.log('save');
     if (!translatedText) {
       console.error('No translated text to save');
       return;
     }
-    const userSavedHistory = localStorageDataUtils.saveData(
-      LSKey.userSavedHistory,
+    const userFavorites = localStorageDataUtils.saveData(
+      LSKey.userFavorites,
       translatedTextData
     );
-    translatorStore.setUserSavedHistory(userSavedHistory);
+    translatorStore.setUserFavorites(userFavorites);
   }
 </script>
 
@@ -42,7 +42,7 @@
       class="translator-target"
     />
     {#if translatedText.length > 0}
-      <button class="save-mark" on:click={saveTranslation}>
+      <button class="save-mark" on:click={saveFavorites}>
         <img src={starSVG} class="svg-icon" alt="removeMark" />
       </button>
     {/if}

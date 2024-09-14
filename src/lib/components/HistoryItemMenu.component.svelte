@@ -61,11 +61,11 @@
       return;
     }
 
-    const userSavedHistory = localStorageDataUtils.saveData(
-      LSKey.userSavedHistory,
+    const userFavorites = localStorageDataUtils.saveData(
+      LSKey.userFavorites,
       translation
     );
-    translatorStore.setUserSavedHistory(userSavedHistory);
+    translatorStore.setUserFavorites(userFavorites);
   }
 </script>
 
