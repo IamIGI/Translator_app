@@ -175,8 +175,15 @@ const translatorStore = () => {
     });
   }
 
-  function getUserHistoryItem(id: string) {
+  function getUserHistoryItem(id: string): T_.TranslationLS | undefined {
     const userHistoryData = get(store).userHistory;
+    if (userHistoryData.length === 0) return undefined;
+    return userHistoryData.find((item) => item.id === id);
+  }
+
+  function getUserFavItem(id: string): T_.TranslationLS | undefined {
+    console.log('getUserFavItem: ', id);
+    const userHistoryData = get(store).userFavorites;
     if (userHistoryData.length === 0) return undefined;
     return userHistoryData.find((item) => item.id === id);
   }
@@ -195,6 +202,7 @@ const translatorStore = () => {
     swapSelectedLanguages,
     setUserFavorites,
     getUserHistoryItem,
+    getUserFavItem,
   };
 };
 
