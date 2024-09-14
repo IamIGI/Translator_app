@@ -122,7 +122,7 @@
 
 <style lang="scss">
   .wrapper {
-    outline: 1px solid blue;
+    /* outline: 1px solid blue; */
     flex: 1;
     display: flex;
     flex-direction: column;

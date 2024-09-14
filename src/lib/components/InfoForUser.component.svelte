@@ -6,7 +6,7 @@
 
 <div class="wrapper">
   <UserHistory data={$translatorStore.userHistory} />
-  <UserSaved data={$translatorStore.userSavedHistory} />
+  <UserSaved data={$translatorStore.userFavorites} />
 </div>
 
 <style lang="scss">

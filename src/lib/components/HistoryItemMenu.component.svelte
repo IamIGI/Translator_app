@@ -7,6 +7,8 @@
   import translatorStore from '$lib/+stores/translator.store';
   import { onMount } from 'svelte';
 
+  import WarnUser from './Modals/WarnUser.component.svelte';
+
   export let index: number;
   export let translationId: string;
   export let isItemMenuVisible: number | undefined;
@@ -53,24 +55,43 @@
     onItemMenuVisibleChange(undefined);
   }
 
-  function saveTranslation(id: string) {
-    console.log('save');
+  function saveFavoriteTranslation(id: string) {
     const translation = translatorStore.getUserHistoryItem(id);
+    console.log(translation);
     if (!translation) {
-      console.error('Could not save given translation');
+      console.error('Could not find given translation');
+      return;
+    }
+    const isTranslationAlreadyInFav = Boolean(
+      translatorStore.getUserFavItem(id)
+    );
+
+    if (isTranslationAlreadyInFav) {
+      function handleConfirm() {
+        console.log('Handle confirm');
+      }
+
+      new WarnUser({
+        target: document.body,
+        props: {
+          text: 'Dane tłumaczenie jest już zapisane',
+          onConfirm: handleConfirm,
+        },
+      });
+
       return;
     }
 
-    const userSavedHistory = localStorageDataUtils.saveData(
-      LSKey.userSavedHistory,
+    const userFavorites = localStorageDataUtils.saveData(
+      LSKey.userFavorites,
       translation
     );
-    translatorStore.setUserSavedHistory(userSavedHistory);
+    translatorStore.setUserFavorites(userFavorites);
   }
 </script>
 
 <div class="wrapper">
-  <button on:click={(e) => saveTranslation(translationId)}>
+  <button on:click={(e) => saveFavoriteTranslation(translationId)}>
     <img src={starSVG} alt="star" class="options-svg" />
   </button>
   <button on:click={(e) => handleOpenMenu(index, e)}>

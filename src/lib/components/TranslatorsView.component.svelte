@@ -18,8 +18,6 @@
   }
 
   function handleTranslateDataChange(e: CustomEvent<T_.TranslationLS>) {
-    console.log(e);
-    console.log(e.detail);
     translatedTextData = e.detail;
   }
 </script>
@@ -57,7 +55,7 @@
 <style lang="scss">
   .wrapper {
     position: relative;
-    outline: 1px solid red;
+    /* outline: 1px solid red; */
     margin: 0 2.5rem;
     display: flex;
     flex-direction: row;
