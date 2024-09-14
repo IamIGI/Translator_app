@@ -1,8 +1,14 @@
 <script lang="ts">
+  import SavedHistoryItemMenu from './SavedHistoryItemMenu.component.svelte';
+  import TranslationList from './TranslationList.component.svelte';
+
+  export let data: T_.TranslationLS[];
 </script>
 
 <div class="wrapper">
-  <h1>User saved translations</h1>
+  <TranslationList {data}>
+    <SavedHistoryItemMenu slot="menu" let:translationId {translationId} />
+  </TranslationList>
 </div>
 
 <style lang="scss">
@@ -12,6 +18,9 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    outline: 1px solid purple;
+
+    max-height: 650px;
+    overflow: auto;
+    /* outline: 1px solid green; */
   }
 </style>

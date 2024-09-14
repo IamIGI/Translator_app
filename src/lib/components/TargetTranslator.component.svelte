@@ -3,12 +3,29 @@
   import { TranslatorType } from '$lib/models/enums';
   import LanguageMenu from './LanguageMenu.component.svelte';
   import TranslatorOptions from './TranslatorOptions.component.svelte';
-  import xSymbolSVG from '$assets/xSymbol.svg';
   import translatorStore from '$lib/+stores/translator.store';
   import { TranslateModelSourceEnum } from '$lib/api/translator/generated';
+  import starSVG from '$assets/star.svg';
+  import localStorageDataUtils, {
+    LSKey,
+  } from '$lib/utils/localStorageData.utils';
 
   export let selectedLanguage: TranslateModelSourceEnum;
   export let translatedText: string = '';
+  export let translatedTextData: T_.TranslationLS;
+
+  function saveTranslation() {
+    console.log('save');
+    if (!translatedText) {
+      console.error('No translated text to save');
+      return;
+    }
+    const userSavedHistory = localStorageDataUtils.saveData(
+      LSKey.userSavedHistory,
+      translatedTextData
+    );
+    translatorStore.setUserSavedHistory(userSavedHistory);
+  }
 </script>
 
 <div class="wrapper">
@@ -24,6 +41,11 @@
       placeholder="Your translated text"
       class="translator-target"
     />
+    {#if translatedText.length > 0}
+      <button class="save-mark" on:click={saveTranslation}>
+        <img src={starSVG} class="svg-icon" alt="removeMark" />
+      </button>
+    {/if}
     <TranslatorOptions
       letterCounter={translatedText.length}
       maxTextSize={CONSTS.maxTextSize}
@@ -67,6 +89,29 @@
       font-size: var(--font-size-normal);
       //   border: 1px solid red;
       margin-right: 35px;
+    }
+  }
+
+  .save-mark {
+    position: absolute;
+    top: 5px;
+    right: 6px;
+    background-color: transparent;
+    cursor: pointer;
+    border-radius: 25%;
+    padding: 3px;
+
+    &:hover {
+      cursor: pointer;
+      background-color: rgb(231, 172, 70);
+      color: white;
+      border-bottom: 1px solid rgba(250, 249, 249, 0.12);
+    }
+
+    img {
+      height: 23px;
+      width: 23px;
+      background-color: transparent;
     }
   }
 

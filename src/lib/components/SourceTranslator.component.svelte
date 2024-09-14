@@ -8,7 +8,10 @@
   import { TranslateModelSourceEnum } from '$lib/api/translator/generated';
   import { translate } from '$lib/api/translator/translator.api.service';
   import payloadMiddlewareUtils from '$lib/utils/payloadMiddleware.utils';
-  import localStorageDataUtils from '$lib/utils/localStorageData.utils';
+  import localStorageDataUtils, {
+    LSKey,
+  } from '$lib/utils/localStorageData.utils';
+  import { createEventDispatcher } from 'svelte';
 
   export let translateOnTimeout: boolean;
   export let selectedSourceLanguage: TranslateModelSourceEnum;
@@ -17,8 +20,9 @@
   export let translateCall: boolean;
 
   let text: string = '';
-
   let searchTimeout: number;
+
+  const dispatch = createEventDispatcher();
 
   $: text, translateOnTimeout && translateTexOnKeyStroke();
   $: translateCall, handleCallForTranslate();
@@ -68,7 +72,11 @@
       timestamp,
       supportedLanguages
     );
-    const userHistory = localStorageDataUtils.saveUserTranslation(LS_payload);
+    dispatch('translatedTextData', LS_payload);
+    const userHistory = localStorageDataUtils.saveData(
+      LSKey.userHistory,
+      LS_payload
+    );
     translatorStore.setUserHistory(userHistory);
   }
 
