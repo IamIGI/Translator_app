@@ -86,8 +86,8 @@
   }
 
   translatorStore.subscribe((state) => {
-    const { sourceText } = state;
-    if (sourceText !== text) text = sourceText;
+    const { sourceText, translatedText } = state;
+    if (translatedText !== '' && sourceText !== text) text = sourceText;
   });
 </script>
 
