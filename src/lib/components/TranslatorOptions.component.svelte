@@ -4,27 +4,50 @@
   import loudSpeakerSVG from '$assets/loudspeaker.svg';
   import copySVG from '$assets/copy.svg';
   import keyboardSVG from '$assets/keyboard.svg';
+  import { createEventDispatcher } from 'svelte';
 
   export let letterCounter: number;
   export let maxTextSize: number;
   export let type: TranslatorType;
+
+  const dispatch = createEventDispatcher();
+
+  function copyText() {
+    dispatch('copyToClipboard', null);
+  }
 </script>
 
 <div class="wrapper">
   <div class="buttons-wrapper">
     <div class="buttons-wrapper-items">
       {#if type === TranslatorType.Source}
-        <img src={microphoneSVG} alt="microphone" class="svg-icon" />
-        <img src={loudSpeakerSVG} alt="loudspeaker" class="svg-icon" />
+        <div class="source">
+          <button>
+            <img src={microphoneSVG} alt="microphone" class="svg-icon" />
+          </button>
+          <button>
+            <img src={loudSpeakerSVG} alt="loudspeaker" class="svg-icon" />
+          </button>
+        </div>
       {:else}
-        <img src={copySVG} alt="copy" class="svg-icon" />
-        <img src={loudSpeakerSVG} alt="loudspeaker" class="svg-icon" />
+        <div class="target">
+          <button on:click={copyText} disabled={letterCounter === 0}>
+            <img src={copySVG} alt="copy" class="svg-icon" />
+          </button>
+          <button>
+            <img src={loudSpeakerSVG} alt="loudspeaker" class="svg-icon" />
+          </button>
+        </div>
       {/if}
     </div>
     <div class="buttons-wrapper-items">
       {#if type === TranslatorType.Source}
         <p>{letterCounter} / {maxTextSize}</p>
-        <img src={keyboardSVG} alt="keyboard" class="svg-icon" />
+        <div class="source">
+          <button>
+            <img src={keyboardSVG} alt="keyboard" class="svg-icon" />
+          </button>
+        </div>
       {/if}
     </div>
   </div>
@@ -55,6 +78,36 @@
       display: flex;
       gap: 20px;
       align-items: center;
+    }
+
+    .source,
+    .target {
+      display: flex;
+      gap: 20px;
+
+      button {
+        background-color: transparent;
+        /* &:disabled {
+          border-bottom: 1px solid red;
+        } */
+      }
+    }
+
+    .source {
+      button {
+        padding: 5px;
+        :hover {
+          background-color: #f5f5f5;
+        }
+      }
+    }
+
+    .target {
+      button {
+        :hover {
+          background-color: white;
+        }
+      }
     }
   }
 
