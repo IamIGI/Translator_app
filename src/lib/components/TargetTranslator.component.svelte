@@ -9,13 +9,13 @@
   import localStorageDataUtils, {
     LSKey,
   } from '$lib/utils/localStorageData.utils';
+  import notificationsUtils from '$lib/utils/notifications.utils';
 
   export let selectedLanguage: TranslateModelSourceEnum;
   export let translatedText: string = '';
   export let translatedTextData: T_.TranslationLS;
 
   function saveFavorites() {
-    console.log('save');
     if (!translatedText) {
       console.error('No translated text to save');
       return;
@@ -25,6 +25,12 @@
       translatedTextData
     );
     translatorStore.setUserFavorites(userFavorites);
+  }
+
+  function handleCopyToClipboard() {
+    if (translatedText.length === 0) return;
+    navigator.clipboard.writeText(translatedText);
+    notificationsUtils.showInformation('Text copied!');
   }
 </script>
 
@@ -50,6 +56,7 @@
       letterCounter={translatedText.length}
       maxTextSize={CONSTS.maxTextSize}
       type={TranslatorType.Target}
+      on:copyToClipboard={handleCopyToClipboard}
     />
   </div>
 </div>
