@@ -1,0 +1,279 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "ipapi.co IP Geolocation API",
+        "description": "This API provides IP address-based geolocation data, including city, region, country, latitude, longitude, and other related details.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://ipapi.co",
+            "description": "API server base for ipapi.co"
+        }
+    ],
+    "paths": {
+        "/json": {
+            "get": {
+                "summary": "IP Geolocation Data",
+                "description": "Get geolocation data based on the user's IP address or a provided IP address.",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Successful response containing geolocation data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "ip": {
+                                            "type": "string",
+                                            "description": "The IP address of the client or the requested IP."
+                                        },
+                                        "city": {
+                                            "type": "string",
+                                            "description": "City where the IP address is located."
+                                        },
+                                        "region": {
+                                            "type": "string",
+                                            "description": "Region or state name."
+                                        },
+                                        "region_code": {
+                                            "type": "string",
+                                            "description": "Code of the region or state."
+                                        },
+                                        "country": {
+                                            "type": "string",
+                                            "description": "Two-letter country code (ISO Alpha-2)."
+                                        },
+                                        "country_name": {
+                                            "type": "string",
+                                            "description": "Full name of the country."
+                                        },
+                                        "country_code_iso3": {
+                                            "type": "string",
+                                            "description": "Three-letter country code (ISO Alpha-3)."
+                                        },
+                                        "country_capital": {
+                                            "type": "string",
+                                            "description": "Capital of the country."
+                                        },
+                                        "country_tld": {
+                                            "type": "string",
+                                            "description": "Country top-level domain."
+                                        },
+                                        "continent_code": {
+                                            "type": "string",
+                                            "description": "Continent code where the country is located."
+                                        },
+                                        "in_eu": {
+                                            "type": "boolean",
+                                            "description": "Indicates if the country is part of the European Union."
+                                        },
+                                        "postal": {
+                                            "type": "string",
+                                            "description": "Postal code of the location."
+                                        },
+                                        "latitude": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "description": "Latitude of the location."
+                                        },
+                                        "longitude": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "description": "Longitude of the location."
+                                        },
+                                        "timezone": {
+                                            "type": "string",
+                                            "description": "Timezone of the location."
+                                        },
+                                        "utc_offset": {
+                                            "type": "string",
+                                            "description": "UTC offset of the timezone."
+                                        },
+                                        "country_calling_code": {
+                                            "type": "string",
+                                            "description": "International country calling code."
+                                        },
+                                        "currency": {
+                                            "type": "string",
+                                            "description": "Currency used in the country."
+                                        },
+                                        "currency_name": {
+                                            "type": "string",
+                                            "description": "Full name of the currency."
+                                        },
+                                        "languages": {
+                                            "type": "string",
+                                            "description": "Languages spoken in the country."
+                                        },
+                                        "country_area": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "description": "Total area of the country in square kilometers."
+                                        },
+                                        "country_population": {
+                                            "type": "integer",
+                                            "description": "Population of the country."
+                                        },
+                                        "asn": {
+                                            "type": "string",
+                                            "description": "Autonomous System Number (ASN) of the IP address."
+                                        },
+                                        "org": {
+                                            "type": "string",
+                                            "description": "Organization associated with the IP address."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request or invalid IP address."
+                    }
+                }
+            }
+        },
+        "/{ip}/json": {
+            "get": {
+                "summary": "IP Geolocation Data for a specific IP",
+                "description": "Get geolocation data based on a provided IP address.",
+                "parameters": [
+                    {
+                        "name": "ip",
+                        "in": "path",
+                        "required": true,
+                        "description": "The IP address to retrieve geolocation data for.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response containing geolocation data.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Geolocation"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request or invalid IP address."
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Geolocation": {
+                "type": "object",
+                "properties": {
+                    "ip": {
+                        "type": "string",
+                        "description": "The IP address of the client or the requested IP."
+                    },
+                    "city": {
+                        "type": "string",
+                        "description": "City where the IP address is located."
+                    },
+                    "region": {
+                        "type": "string",
+                        "description": "Region or state name."
+                    },
+                    "region_code": {
+                        "type": "string",
+                        "description": "Code of the region or state."
+                    },
+                    "country": {
+                        "type": "string",
+                        "description": "Two-letter country code (ISO Alpha-2)."
+                    },
+                    "country_name": {
+                        "type": "string",
+                        "description": "Full name of the country."
+                    },
+                    "country_code_iso3": {
+                        "type": "string",
+                        "description": "Three-letter country code (ISO Alpha-3)."
+                    },
+                    "country_capital": {
+                        "type": "string",
+                        "description": "Capital of the country."
+                    },
+                    "country_tld": {
+                        "type": "string",
+                        "description": "Country top-level domain."
+                    },
+                    "continent_code": {
+                        "type": "string",
+                        "description": "Continent code where the country is located."
+                    },
+                    "in_eu": {
+                        "type": "boolean",
+                        "description": "Indicates if the country is part of the European Union."
+                    },
+                    "postal": {
+                        "type": "string",
+                        "description": "Postal code of the location."
+                    },
+                    "latitude": {
+                        "type": "number",
+                        "format": "float",
+                        "description": "Latitude of the location."
+                    },
+                    "longitude": {
+                        "type": "number",
+                        "format": "float",
+                        "description": "Longitude of the location."
+                    },
+                    "timezone": {
+                        "type": "string",
+                        "description": "Timezone of the location."
+                    },
+                    "utc_offset": {
+                        "type": "string",
+                        "description": "UTC offset of the timezone."
+                    },
+                    "country_calling_code": {
+                        "type": "string",
+                        "description": "International country calling code."
+                    },
+                    "currency": {
+                        "type": "string",
+                        "description": "Currency used in the country."
+                    },
+                    "currency_name": {
+                        "type": "string",
+                        "description": "Full name of the currency."
+                    },
+                    "languages": {
+                        "type": "string",
+                        "description": "Languages spoken in the country."
+                    },
+                    "country_area": {
+                        "type": "number",
+                        "format": "float",
+                        "description": "Total area of the country in square kilometers."
+                    },
+                    "country_population": {
+                        "type": "integer",
+                        "description": "Population of the country."
+                    },
+                    "asn": {
+                        "type": "string",
+                        "description": "Autonomous System Number (ASN) of the IP address."
+                    },
+                    "org": {
+                        "type": "string",
+                        "description": "Organization associated with the IP address."
+                    }
+                }
+            }
+        }
+    }
+}

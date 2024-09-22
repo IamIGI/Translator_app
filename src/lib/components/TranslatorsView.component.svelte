@@ -1,5 +1,6 @@
 <script lang="ts">
   import translatorStore from '$lib/+stores/translator.store';
+  import configStore from '$lib/+stores/config.store';
   import LangMenuBig from './LangMenuBig.component.svelte';
   import SourceTranslator from './SourceTranslator.component.svelte';
   import TargetTranslator from './TargetTranslator.component.svelte';
@@ -26,7 +27,7 @@
   <SourceTranslator
     selectedSourceLanguage={$translatorStore.selectedSourceLanguage}
     selectedTargetLanguage={$translatorStore.selectedTargetLanguage}
-    translateOnTimeout={$translatorStore.configuration.translateOnTimeout}
+    translateOnTimeout={$configStore.translateOnTimeout}
     supportedLanguages={translatorStore.getSupportedLanguageList()}
     translateCall={callForTranslate}
     on:translatedTextData={handleTranslateDataChange}

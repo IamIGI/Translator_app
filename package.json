@@ -7,6 +7,7 @@
 		"build": "vite build",
 		"preview": "vite preview",
 		"gen:translator-api": "openapi-generator-cli generate -i ./src/lib/api/translator/translator.schema.json -o ./src/lib/api/translator/generated -g typescript-fetch --additional-properties=useSingleRequestParameter=false,prependFormOrBodyParameters=true",
+		"gen:ipapi-api": "openapi-generator-cli generate -i ./src/lib/api/ipapi/ipapi.schema.json -o ./src/lib/api/ipapi/generated -g typescript-fetch --additional-properties=useSingleRequestParameter=false,prependFormOrBodyParameters=true",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"test": "vitest",
