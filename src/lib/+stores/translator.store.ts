@@ -6,9 +6,6 @@ import localStorageDataUtils, {
 import { get, writable } from 'svelte/store';
 
 export interface TranslatorStore {
-  configuration: {
-    translateOnTimeout: boolean;
-  };
   supportedLanguages: T_.LangItem[];
   bigLangMenu: { isOpen: boolean; type: TranslatorType };
   selectedSourceLanguage: TranslateModelSourceEnum;
@@ -20,7 +17,11 @@ export interface TranslatorStore {
   userFavorites: T_.TranslationLS[];
 }
 
-function getInitLangShortMenu(supportedLanguages: T_.LangItem[]) {
+function getInitLangShortMenu(
+  supportedLanguages: T_.LangItem[],
+  sourceLanguage: TranslateModelSourceEnum
+) {
+  //Set constants languageItems in menu
   const langShortMenu: T_.LangItem[] = [
     {
       text: 'Auto Detect',
@@ -31,8 +32,23 @@ function getInitLangShortMenu(supportedLanguages: T_.LangItem[]) {
       value: TranslateModelSourceEnum.En,
     },
   ];
+
+  // Add language detected from localization
+  const detectedUserLang = supportedLanguages.find(
+    (lang) => lang.value === sourceLanguage
+  );
+
+  if (detectedUserLang) {
+    const userLanguage = {
+      text: detectedUserLang.text,
+      value: sourceLanguage,
+    };
+    langShortMenu.splice(1, 0, userLanguage);
+    langShortMenu.push();
+  }
+  // Fill rest of the languageMenu items
   const slicedArray = supportedLanguages.slice(2, -1);
-  for (let index = 0; index < 2; index++) {
+  for (let index = 0; index < 1; index++) {
     langShortMenu.push(slicedArray[index]);
   }
 
@@ -43,15 +59,15 @@ const translatorStore = () => {
   const store = writable<TranslatorStore>();
   const { subscribe, update, set } = store;
 
-  async function setInitData(supportedLanguages: T_.LangItem[]) {
+  async function setInitData(
+    supportedLanguages: T_.LangItem[],
+    sourceLanguage: TranslateModelSourceEnum
+  ) {
     const initData: TranslatorStore = {
-      configuration: {
-        translateOnTimeout: false,
-      },
       supportedLanguages,
-      langShortMenu: getInitLangShortMenu(supportedLanguages),
+      langShortMenu: getInitLangShortMenu(supportedLanguages, sourceLanguage),
       bigLangMenu: { isOpen: false, type: TranslatorType.Source },
-      selectedSourceLanguage: TranslateModelSourceEnum.Auto,
+      selectedSourceLanguage: sourceLanguage,
       selectedTargetLanguage: TranslateModelSourceEnum.En,
       translatedText: '',
       sourceText: '',
@@ -69,7 +85,6 @@ const translatorStore = () => {
   function getLanguageShortMenuList(
     selectedLanguage: TranslateModelSourceEnum
   ): T_.LangItem[] {
-    console.log('getLanguageShortMenuList');
     const currentLangShortMenu = get(store).langShortMenu;
     const isSelectedItemAlreadyIn = Boolean(
       currentLangShortMenu.find(
@@ -182,7 +197,6 @@ const translatorStore = () => {
   }
 
   function getUserFavItem(id: string): T_.TranslationLS | undefined {
-    console.log('getUserFavItem: ', id);
     const userHistoryData = get(store).userFavorites;
     if (userHistoryData.length === 0) return undefined;
     return userHistoryData.find((item) => item.id === id);
