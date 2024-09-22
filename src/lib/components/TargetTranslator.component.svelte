@@ -25,6 +25,7 @@
       translatedTextData
     );
     translatorStore.setUserFavorites(userFavorites);
+    notificationsUtils.showInformation('Translation added to favorites');
   }
 
   function handleCopyToClipboard() {

@@ -4,6 +4,7 @@
     LSKey,
   } from '$lib/utils/localStorageData.utils';
   import translatorStore from '$lib/+stores/translator.store';
+  import notificationsUtils from '$lib/utils/notifications.utils';
 
   export let translationId: string;
 
@@ -13,7 +14,7 @@
       id
     );
     translatorStore.setUserFavorites(updatedHistory);
-
+    notificationsUtils.showInformation('Translation deleted');
     event.stopPropagation();
   }
 </script>

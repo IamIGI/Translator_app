@@ -8,6 +8,7 @@
   import { onMount } from 'svelte';
 
   import WarnUser from './Modals/WarnUser.component.svelte';
+  import notificationsUtils from '$lib/utils/notifications.utils';
 
   export let index: number;
   export let translationId: string;
@@ -51,13 +52,13 @@
       id
     );
     translatorStore.setUserHistory(updatedHistory);
-
+    notificationsUtils.showInformation('Translation deleted');
     onItemMenuVisibleChange(undefined);
   }
 
   function saveFavoriteTranslation(id: string) {
     const translation = translatorStore.getUserHistoryItem(id);
-    console.log(translation);
+
     if (!translation) {
       console.error('Could not find given translation');
       return;
@@ -87,6 +88,7 @@
       translation
     );
     translatorStore.setUserFavorites(userFavorites);
+    notificationsUtils.showInformation('Translation added to favorites');
   }
 </script>
 
