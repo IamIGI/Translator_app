@@ -43,11 +43,12 @@
     border-radius: var(--border-radius);
     min-width: 180px;
     min-height: 60px;
+    width: fit-content;
+    padding: 10px 15px 10px 15px;
     background-color: rgb(5, 145, 5);
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    padding-left: 15px;
 
     p {
       color: white;

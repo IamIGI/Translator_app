@@ -1,6 +1,8 @@
 import type { JsonGet200Response } from '$lib/api/ipapi/generated';
-import ipapiApi from '$lib/api/ipapi/ipapi.api.config';
+// import ipapiApi from '$lib/api/ipapi/ipapi.api.config';
 import { TranslateModelSourceEnum } from '$lib/api/translator/generated';
+import { LOCALIZATION_PL_MOCK } from '$lib/mocks/ipapi.mock';
+
 import { get, writable } from 'svelte/store';
 
 export interface ConfigStore {
@@ -13,7 +15,8 @@ const configStore = () => {
   const { subscribe, set } = store;
 
   async function setInitData() {
-    const localizationData = await ipapiApi.ipapiService.jsonGet();
+    const localizationData = LOCALIZATION_PL_MOCK;
+    // const localizationData = await ipapiApi.ipapiService.jsonGet();
     // const response = await fetch(`https://ipapi.co/json/`);
     // const localizationData = await response.json();
 
