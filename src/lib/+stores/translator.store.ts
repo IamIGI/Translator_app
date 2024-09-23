@@ -202,6 +202,31 @@ const translatorStore = () => {
     return userHistoryData.find((item) => item.id === id);
   }
 
+  function getObjectFroSharedTranslation(): T_.SharedTranslation {
+    const {
+      sourceText,
+      translatedText,
+      selectedSourceLanguage,
+      selectedTargetLanguage,
+    } = get(store);
+    return {
+      source: { lang: selectedSourceLanguage, text: sourceText },
+      target: { lang: selectedTargetLanguage, text: translatedText },
+    };
+  }
+
+  function saveSharedTranslation(data: T_.SharedTranslation) {
+    update((prev) => {
+      return {
+        ...prev,
+        selectedSourceLanguage: data.source.lang,
+        selectedTargetLanguage: data.target.lang,
+        sourceText: data.source.text,
+        translatedText: data.target.text,
+      };
+    });
+  }
+
   return {
     subscribe,
     setInitData,
@@ -217,6 +242,8 @@ const translatorStore = () => {
     setUserFavorites,
     getUserHistoryItem,
     getUserFavItem,
+    getObjectFroSharedTranslation,
+    saveSharedTranslation,
   };
 };
 

@@ -25,6 +25,17 @@ declare global {
       translation: string;
     }
 
+    interface SharedTranslation {
+      source: {
+        lang: TranslateModelSourceEnum;
+        text: string;
+      };
+      target: {
+        lang: TranslateModelSourceEnum;
+        text: string;
+      };
+    }
+
     interface SupportedLanguagesData {
       'Auto Detect': TranslateModelSourceEnum;
       Afrikaans: TranslateModelSourceEnum;

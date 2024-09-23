@@ -1,6 +1,6 @@
 <script lang="ts">
   import { CONSTS } from '$lib/CONSTS';
-  import { TranslatorType } from '$lib/models/enums';
+  import { TranslatorType, UrlParamsEnum } from '$lib/models/enums';
   import LanguageMenu from './LanguageMenu.component.svelte';
   import TranslatorOptions from './TranslatorOptions.component.svelte';
   import translatorStore from '$lib/+stores/translator.store';
@@ -10,13 +10,15 @@
     LSKey,
   } from '$lib/utils/localStorageData.utils';
   import notificationsUtils from '$lib/utils/notifications.utils';
+  import translatorUtils from '$lib/utils/translator.utils';
 
   export let selectedLanguage: TranslateModelSourceEnum;
   export let translatedText: string = '';
   export let translatedTextData: T_.TranslationLS;
 
   function saveFavorites() {
-    if (!translatedText) {
+    console.log(translatedTextData);
+    if (!translatedText || !translatedTextData) {
       console.error('No translated text to save');
       return;
     }
@@ -32,6 +34,19 @@
     if (translatedText.length === 0) return;
     navigator.clipboard.writeText(translatedText);
     notificationsUtils.showInformation('Text copied!');
+  }
+
+  function handleShareTranslation() {
+    const translatedTextPair = translatorStore.getObjectFroSharedTranslation();
+    const translatedTextPairString = JSON.stringify(translatedTextPair);
+
+    const link = translatorUtils.createLink(
+      UrlParamsEnum.TranslationHistory,
+      translatedTextPairString
+    );
+
+    navigator.clipboard.writeText(link);
+    notificationsUtils.showInformation('Link copied!');
   }
 </script>
 
@@ -58,6 +73,7 @@
       maxTextSize={CONSTS.maxTextSize}
       type={TranslatorType.Target}
       on:copyToClipboard={handleCopyToClipboard}
+      on:shareTranslation={handleShareTranslation}
     />
   </div>
 </div>
