@@ -4,6 +4,7 @@
   import loudSpeakerSVG from '$assets/loudspeaker.svg';
   import copySVG from '$assets/copy.svg';
   import keyboardSVG from '$assets/keyboard.svg';
+  import shareSVG from '$assets/share.svg';
   import { createEventDispatcher } from 'svelte';
 
   export let letterCounter: number;
@@ -12,8 +13,12 @@
 
   const dispatch = createEventDispatcher();
 
-  function copyText() {
+  function onCopyText() {
     dispatch('copyToClipboard', null);
+  }
+
+  function onShareTranslation() {
+    dispatch('shareTranslation');
   }
 </script>
 
@@ -31,8 +36,11 @@
         </div>
       {:else}
         <div class="target">
-          <button on:click={copyText} disabled={letterCounter === 0}>
+          <button on:click={onCopyText} disabled={letterCounter === 0}>
             <img src={copySVG} alt="copy" class="svg-icon" />
+          </button>
+          <button on:click={onShareTranslation} disabled={letterCounter === 0}>
+            <img src={shareSVG} alt="share" class="svg-icon" />
           </button>
           <button>
             <img src={loudSpeakerSVG} alt="loudspeaker" class="svg-icon" />

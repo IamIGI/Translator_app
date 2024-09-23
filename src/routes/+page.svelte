@@ -7,9 +7,11 @@
   import TranslatorsView from '$lib/components/TranslatorsView.component.svelte';
   import InfoForUser from '$lib/components/InfoForUser.component.svelte';
   import Footer from '$lib/components/Footer.component.svelte';
+  import translatorUtils from '$lib/utils/translator.utils';
 
   onMount(() => {
     // translate('Cz', TranslateModelSourceEnum.Auto, TranslateModelSourceEnum.En);
+    translatorUtils.getSharedTranslation();
   });
 </script>
 

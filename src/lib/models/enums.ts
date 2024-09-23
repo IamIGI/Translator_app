@@ -1,3 +1,7 @@
+export enum UrlParamsEnum {
+  TranslationHistory = 'translationHistory',
+}
+
 export enum TranslatorType {
   Source = 'source',
   Target = 'target',
