@@ -8,16 +8,37 @@
   import InfoForUser from '$lib/components/InfoForUser.component.svelte';
   import Footer from '$lib/components/Footer.component.svelte';
   import translatorUtils from '$lib/utils/translator.utils';
+  import translatorStore from '$lib/+stores/translator.store';
+  import payloadMiddlewareUtils from '$lib/utils/payloadMiddleware.utils';
 
   onMount(() => {
     // translate('Cz', TranslateModelSourceEnum.Auto, TranslateModelSourceEnum.En);
     translatorUtils.getSharedTranslation();
   });
+
+  let translatedTextData: T_.TranslationLS;
+
+  translatorStore.subscribe((state) => {
+    console.log(state);
+
+    translatedTextData = payloadMiddlewareUtils.translation_TranslationLS(
+      {
+        details: null,
+        translations: {
+          source: state.selectedSourceLanguage,
+          target: state.selectedTargetLanguage,
+          text: state.sourceText,
+          translation: state.translatedText,
+        },
+      },
+      state.supportedLanguages
+    );
+  });
 </script>
 
 <div class="wrapper">
   <Navigation />
-  <TranslatorsView />
+  <TranslatorsView {translatedTextData} />
   <InfoForUser />
   <Footer />
 </div>

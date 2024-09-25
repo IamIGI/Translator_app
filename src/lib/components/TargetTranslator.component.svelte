@@ -17,9 +17,10 @@
   export let translatedTextData: T_.TranslationLS;
 
   function saveFavorites() {
+    console.log('saveFavorites');
     console.log(translatedTextData);
     if (!translatedText || !translatedTextData) {
-      console.error('No translated text to save');
+      console.warn('No translated text to save');
       return;
     }
     const userFavorites = localStorageDataUtils.saveData(
@@ -46,7 +47,7 @@
     );
 
     navigator.clipboard.writeText(link);
-    notificationsUtils.showInformation('Link copied!');
+    notificationsUtils.showInformation('Link copied. Now you can share it!');
   }
 </script>
 
