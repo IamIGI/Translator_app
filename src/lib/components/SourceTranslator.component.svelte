@@ -22,8 +22,6 @@
   let text: string = '';
   let searchTimeout: number;
 
-  const dispatch = createEventDispatcher();
-
   $: text, translateOnTimeout && translateTexOnKeyStroke();
   $: translateCall, handleCallForTranslate();
 
@@ -56,7 +54,6 @@
   }
 
   async function translateText() {
-    const timestamp = new Date();
     const response = await translate(
       text,
       selectedSourceLanguage,
@@ -69,10 +66,9 @@
 
     const LS_payload = payloadMiddlewareUtils.translation_TranslationLS(
       response,
-      timestamp,
+
       supportedLanguages
     );
-    dispatch('translatedTextData', LS_payload);
     const userHistory = localStorageDataUtils.saveData(
       LSKey.userHistory,
       LS_payload

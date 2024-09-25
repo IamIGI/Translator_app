@@ -8,18 +8,15 @@
   import switchSVG from '$assets/arrows-horizontal.svg';
 
   let callForTranslate: boolean = false;
-  let translatedTextData: T_.TranslationLS;
+  export let translatedTextData: T_.TranslationLS;
 
   function handleCallForTranslate() {
+    console.log('handleCallForTranslate');
     callForTranslate = true;
     const timeoutInstance = setTimeout(() => {
       callForTranslate = false;
       return clearTimeout(timeoutInstance);
     }, 100);
-  }
-
-  function handleTranslateDataChange(e: CustomEvent<T_.TranslationLS>) {
-    translatedTextData = e.detail;
   }
 </script>
 
@@ -30,7 +27,6 @@
     translateOnTimeout={$configStore.translateOnTimeout}
     supportedLanguages={translatorStore.getSupportedLanguageList()}
     translateCall={callForTranslate}
-    on:translatedTextData={handleTranslateDataChange}
   />
   <div class="mid-buttons">
     <button class="mid-button" on:click={translatorStore.swapSelectedLanguages}>
