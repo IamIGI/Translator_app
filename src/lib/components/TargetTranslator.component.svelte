@@ -141,6 +141,6 @@
   }
 
   .translator-target {
-    background-color: #f5f5f5;
+    background-color: var(--target-translator-background-color);
   }
 </style>

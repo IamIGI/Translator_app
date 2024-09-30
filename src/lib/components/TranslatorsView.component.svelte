@@ -90,7 +90,8 @@
     }
 
     &:hover {
-      background-color: rgb(234, 234, 234);
+      /* background-color: rgb(234, 234, 234); */
+      background-color: var(--main-button-background-color-hover);
     }
   }
 </style>

@@ -128,7 +128,7 @@
       cursor: pointer;
 
       &:hover {
-        background-color: var(--color-hover);
+        background-color: var(--main-button-background-color-hover);
       }
     }
   }
@@ -139,7 +139,7 @@
     top: 100%;
     right: 0;
     display: flex;
-    background-color: white;
+    background-color: var(--main-button-background-color);
 
     border-radius: 3px;
     box-shadow:
@@ -157,6 +157,7 @@
         &:hover {
           cursor: pointer;
           border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+          background-color: var(--main-button-background-color-hover);
         }
       }
     }
