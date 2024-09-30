@@ -104,16 +104,13 @@
     .source {
       button {
         padding: 5px;
-        :hover {
-          background-color: #f5f5f5;
-        }
       }
     }
 
     .target {
       button {
         :hover {
-          background-color: white;
+          background-color: #262522;
         }
       }
     }

@@ -42,7 +42,7 @@
       cursor: pointer;
 
       &:hover {
-        background-color: var(--color-hover);
+        background-color: var(--main-button-background-color-hover);
       }
     }
   }

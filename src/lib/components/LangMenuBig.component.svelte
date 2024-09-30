@@ -120,12 +120,12 @@
 <style lang="scss">
   .wrapper {
     position: absolute;
-    top: 38px;
+    top: 40px;
     width: 100%;
 
     height: fit-content;
     border: 1px solid rgba(0, 0, 0, 0.12);
-    background-color: white;
+    background-color: var(--main-second-background-color);
     border-radius: var(--border-radius);
     gap: 10px;
 
@@ -151,9 +151,10 @@
       height: 100%;
       border-top-left-radius: var(--border-radius);
       border-top-right-radius: var(--border-radius);
-      &:hover {
-        background-color: var(--color-hover);
-      }
+      /* background-color: var(--main-button-background-color); */
+      /* &:hover {
+        background-color: var(--main-button-background-color-hover);
+      } */
     }
 
     input {
@@ -163,6 +164,7 @@
       outline: none; /* Removes the focus outline */
       box-shadow: none; /* Ensures no box-shadow is applied */
       border-radius: var(--border-radius);
+      background-color: var(--target-translator-background-color);
 
       height: 100%;
       font-size: var(--font-size-normal);
@@ -222,6 +224,7 @@
   }
 
   .language-item {
+    /* outline: 1px solid red; */
     height: 40px;
     font-size: var(--font-size-min);
     padding: 7px;
@@ -235,6 +238,7 @@
     align-items: center;
     gap: 5px;
     padding-left: 10px;
+    background-color: var(--main-button-background-color);
 
     .accept-wrapper {
       width: 20px;
@@ -252,7 +256,7 @@
     }
 
     &:hover {
-      background-color: #f9f9f9;
+      background-color: var(--main-button-background-color-hover);
       border-bottom: 2px solid var(--color-accent);
     }
   }

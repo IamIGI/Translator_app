@@ -50,7 +50,7 @@
 
 <style lang="scss">
   .wrapper {
-    padding: 0 0.5rem;
+    padding: 2px 0.5rem;
     width: 100%;
 
     position: relative;
@@ -65,7 +65,7 @@
     cursor: pointer;
 
     &:hover {
-      background-color: var(--color-hover);
+      background-color: var(--main-button-background-color-hover);
       border-bottom: 2px solid var(--color-accent);
     }
   }
@@ -78,11 +78,11 @@
   .dropDownButton {
     margin-left: 0.7em;
     color: #5f6368;
-    padding: 10px 10px;
+    padding: 10px;
     border-radius: 50%;
 
     &:hover {
-      background-color: var(--color-hover);
+      background-color: var(--main-button-background-color-hover);
     }
   }
 

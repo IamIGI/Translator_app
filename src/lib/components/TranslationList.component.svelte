@@ -45,9 +45,9 @@
     <div class="item-wrapper">
       <div class="top-menu">
         <div class="top-menu-languages">
-          <span>{translation.source.lang}</span>
+          <p>{translation.source.lang}</p>
           <img src={rightArrowSVG} alt="rightArrow" class="right-svg" />
-          <span>{translation.target.lang}</span>
+          <p>{translation.target.lang}</p>
         </div>
         <div class="top-menu-options">
           <slot name="menu" translationId={translation.id} {index} />

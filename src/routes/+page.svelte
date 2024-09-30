@@ -45,6 +45,7 @@
 
 <style lang="scss">
   .wrapper {
+    background-color: var(--main-background-color);
     display: flex;
     flex-direction: column;
     justify-content: flex-start;

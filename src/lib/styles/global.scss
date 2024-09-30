@@ -9,14 +9,12 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #c2c2c2;
+  background-color: var(--scrollbar-background-color-thumb);
   border-radius: 10px;
-  border: 2px solid #f1f1f1;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background-color: #b3b3b3;
   cursor: pointer;
+  &:hover {
+    background-color: var(--scrollbar-background-color-thumb-hover);
+  }
 }
 
 body {
@@ -26,13 +24,23 @@ body {
   background-color: #ffffff;
 }
 
-h1 {
-  color: #333;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+button,
+ul,
+ol,
+textarea {
+  color: var(--main-text-color);
 }
 
 a {
   text-decoration: none;
-  color: #007bff;
 }
 
 /* CSS Reset */
@@ -64,10 +72,14 @@ table {
 }
 
 button {
-  background-color: white;
+  background-color: var(--main-button-background-color);
   cursor: pointer;
 
-  &:disabled {
+  :disabled {
     cursor: auto;
+  }
+
+  :hover {
+    background-color: var(--main-button-background-color-hover);
   }
 }

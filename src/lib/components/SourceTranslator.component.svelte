@@ -140,6 +140,7 @@
     border: 1px solid rgba(0, 0, 0, 0.12);
     border-radius: var(--border-radius);
     padding: 0.5rem;
+    background-color: var(--main-second-background-color);
 
     textarea {
       border: none;
@@ -151,6 +152,7 @@
       font-size: var(--font-size-normal);
       //   border: 1px solid red;
       margin-right: 35px;
+      background-color: var(--main-second-background-color);
     }
   }
 
