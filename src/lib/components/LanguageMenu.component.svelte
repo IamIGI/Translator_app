@@ -43,7 +43,7 @@
       class="langButton langButtonActive"
       on:click={() => translatorStore.toggleLangBigMenu(type)}
     >
-      Polski
+      {translatorStore.getLangItem(selectedLanguage).text}
     </button>
   </div>
 </div>
