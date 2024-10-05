@@ -8,11 +8,26 @@ import { get, writable } from 'svelte/store';
 export interface ConfigStore {
   translateOnTimeout: boolean;
   localization: JsonGet200Response;
+  isDayMode: boolean;
+}
+
+function checkForDayNightMode() {
+  //hours
+  const beginNightMode = 19; //7pm
+  const endNightMode = 7; //7am
+
+  const currentHour = new Date().getHours();
+
+  if (currentHour >= beginNightMode || currentHour < endNightMode) {
+    return false; //isNightMode
+  } else {
+    return true; //isDayMode
+  }
 }
 
 const configStore = () => {
   const store = writable<ConfigStore>();
-  const { subscribe, set } = store;
+  const { subscribe, set, update } = store;
 
   async function setInitData() {
     const localizationData = LOCALIZATION_PL_MOCK;
@@ -23,6 +38,7 @@ const configStore = () => {
     const initData: ConfigStore = {
       translateOnTimeout: false,
       localization: localizationData,
+      isDayMode: checkForDayNightMode(),
     };
 
     set(initData);
@@ -35,10 +51,18 @@ const configStore = () => {
     return localizationData.country.toLowerCase() as unknown as TranslateModelSourceEnum;
   }
 
+  function updateDayNightMode(isDayMode: boolean) {
+    update((state) => {
+      state.isDayMode = isDayMode;
+      return state;
+    });
+  }
+
   return {
     subscribe,
     setInitData,
     getCountryCode,
+    updateDayNightMode,
   };
 };
 
