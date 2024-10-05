@@ -84,6 +84,10 @@
     &:hover {
       background-color: var(--main-button-background-color-hover);
     }
+
+    img {
+      filter: var(--icon-color-filter);
+    }
   }
 
   .mediumPlusScreen {

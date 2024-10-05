@@ -4,6 +4,9 @@
   import rightArrowSVG from '$assets/rightArrow.svg';
 
   export let data: T_.TranslationLS[];
+  export let icon: string;
+
+  let isListVisible: boolean = true;
 
   let expanded: boolean[] = [];
   let needsToggle: boolean[] = [];
@@ -41,32 +44,42 @@
 </script>
 
 <div class="list-wrapper" bind:this={listRef}>
-  {#each data as translation, index}
-    <div class="item-wrapper">
-      <div class="top-menu">
-        <div class="top-menu-languages">
-          <p>{translation.source.lang}</p>
-          <img src={rightArrowSVG} alt="rightArrow" class="right-svg" />
-          <p>{translation.target.lang}</p>
+  <div class="list-navigation">
+    <button
+      class="menu-button"
+      on:click={() => (isListVisible = !isListVisible)}
+    >
+      <img src={icon} alt="favorites" />
+    </button>
+  </div>
+  {#if isListVisible}
+    {#each data as translation, index}
+      <div class="item-wrapper">
+        <div class="top-menu">
+          <div class="top-menu-languages">
+            <p>{translation.source.lang}</p>
+            <img src={rightArrowSVG} alt="rightArrow" class="right-svg" />
+            <p>{translation.target.lang}</p>
+          </div>
+          <div class="top-menu-options">
+            <slot name="menu" translationId={translation.id} {index} />
+          </div>
         </div>
-        <div class="top-menu-options">
-          <slot name="menu" translationId={translation.id} {index} />
+        <div class="text-wrapper" class:expanded={expanded[index]}>
+          <p>{translation.text}</p>
+          <p>{translation.translation}</p>
+          {#if needsToggle[index]}
+            <button class="toggle-button" on:click={() => toggleExpand(index)}>
+              {expanded[index] ? 'Collapse' : 'Read more...'}
+            </button>
+          {/if}
+        </div>
+        <div class="date-wrapper">
+          <p>{dateUtils.formatDateToDDMMYYYY(new Date(translation.date))}</p>
         </div>
       </div>
-      <div class="text-wrapper" class:expanded={expanded[index]}>
-        <p>{translation.text}</p>
-        <p>{translation.translation}</p>
-        {#if needsToggle[index]}
-          <button class="toggle-button" on:click={() => toggleExpand(index)}>
-            {expanded[index] ? 'Collapse' : 'Read more...'}
-          </button>
-        {/if}
-      </div>
-      <div class="date-wrapper">
-        <p>{dateUtils.formatDateToDDMMYYYY(new Date(translation.date))}</p>
-      </div>
-    </div>
-  {/each}
+    {/each}
+  {/if}
 </div>
 
 <style lang="scss">
@@ -86,6 +99,7 @@
     align-items: flex-start;
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
     padding: 5px 0px 6px 10px;
+
     overflow: auto;
   }
 
@@ -171,6 +185,49 @@
     &:hover {
       color: black;
       color: var(--color-button-hover);
+    }
+  }
+
+  .list-navigation {
+    width: 100%;
+    position: sticky;
+    top: 0;
+    border-bottom: var(--main-button-background-color-hover);
+    height: 80px;
+    background-color: var(--main-background-color);
+
+    z-index: 2;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .menu-button {
+    $size: 60px;
+    height: $size;
+    width: $size;
+    border-radius: calc($size/2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--main-button-background-color);
+
+    border: 1px solid var(--border-color);
+    svg {
+      $size: 35px;
+      width: $size;
+      height: $size;
+    }
+    img {
+      $size: 35px;
+      width: $size;
+      height: $size;
+      /* https://codepen.io/sosuke/pen/Pjoqqp */
+      filter: var(--icon-color-filter);
+    }
+
+    &:hover {
+      background-color: var(--main-button-background-color-hover);
     }
   }
 </style>

@@ -87,6 +87,7 @@
       $size: 25px;
       width: $size;
       height: $size;
+      filter: var(--icon-color-filter);
     }
 
     &:hover {

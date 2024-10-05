@@ -11,6 +11,9 @@ const instructions = {
     borderColor: '#e5e7eb',
     scrollBarBackgroundColorThumb: '#c2c2c2',
     scrollBarBackgroundColorThumbHover: '#b3b3b3',
+    /* https://codepen.io/sosuke/pen/Pjoqqp */
+    iconColorFilter:
+      'invert(0%) sepia(10%) saturate(56%) hue-rotate(274deg) brightness(109%) contrast(100%)', //black
   },
   night: {
     backgroundColor: '#151411',
@@ -24,6 +27,8 @@ const instructions = {
     borderColor: '#42403f',
     scrollBarBackgroundColorThumb: '#333130',
     scrollBarBackgroundColorThumbHover: '#2b2a29',
+    iconColorFilter:
+      'invert(56%) sepia(5%) saturate(191%) hue-rotate(314deg) brightness(98%) contrast(88%)', // white
   },
 };
 
@@ -33,55 +38,61 @@ function changeMode(document: Document, isDayMode: boolean) {
     '--main-background-color',
     isDayMode
       ? instructions.day.backgroundColor
-      : instructions.night.backgroundColor // Day: Blue, Night: Dark Gray
+      : instructions.night.backgroundColor
   );
   //second background
   document.documentElement.style.setProperty(
     '--main-second-background-color',
     isDayMode
       ? instructions.day.backgroundColorSecond
-      : instructions.night.backgroundColorSecond // Day: Blue, Night: Dark Gray
+      : instructions.night.backgroundColorSecond
   );
   //button background
   document.documentElement.style.setProperty(
     '--main-button-background-color',
     isDayMode
       ? instructions.day.buttonBackgroundColor
-      : instructions.night.buttonBackgroundColor // Day: Blue, Night: Dark Gray
+      : instructions.night.buttonBackgroundColor
   );
   //button hover background
   document.documentElement.style.setProperty(
     '--main-button-background-color-hover',
     isDayMode
       ? instructions.day.buttonBackgroundColorHover
-      : instructions.night.buttonBackgroundColorHover // Day: Blue, Night: Dark Gray
+      : instructions.night.buttonBackgroundColorHover
   );
 
   document.documentElement.style.setProperty(
     '--main-text-color',
-    isDayMode ? instructions.day.textColor : instructions.night.textColor // Day: Blue, Night: Dark Gray
+    isDayMode ? instructions.day.textColor : instructions.night.textColor
   );
   document.documentElement.style.setProperty(
     '--target-translator-background-color',
     isDayMode
       ? instructions.day.targetTranslatorBackgroundColor
-      : instructions.night.targetTranslatorBackgroundColor // Day: Blue, Night: Dark Gray
+      : instructions.night.targetTranslatorBackgroundColor
   );
   document.documentElement.style.setProperty(
     '--border-color',
-    isDayMode ? instructions.day.borderColor : instructions.night.borderColor // Day: Blue, Night: Dark Gray
+    isDayMode ? instructions.day.borderColor : instructions.night.borderColor
   );
   document.documentElement.style.setProperty(
     '--scrollbar-background-color-thumb',
     isDayMode
       ? instructions.day.scrollBarBackgroundColorThumb
-      : instructions.night.scrollBarBackgroundColorThumb // Day: Blue, Night: Dark Gray
+      : instructions.night.scrollBarBackgroundColorThumb
   );
   document.documentElement.style.setProperty(
     '--scrollbar-background-color-thumb-hover',
     isDayMode
       ? instructions.day.scrollBarBackgroundColorThumbHover
-      : instructions.night.scrollBarBackgroundColorThumbHover // Day: Blue, Night: Dark Gray
+      : instructions.night.scrollBarBackgroundColorThumbHover
+  );
+  document.documentElement.style.setProperty(
+    '--icon-color-filter',
+    isDayMode
+      ? instructions.day.iconColorFilter
+      : instructions.night.iconColorFilter
   );
 }
 
