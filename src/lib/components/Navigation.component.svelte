@@ -2,17 +2,19 @@
   import daySVG from '$assets/night_day_mode/day.svg';
   import nightSVG from '$assets/night_day_mode/night.svg';
   import dayNightModeUtils from '$lib/utils/dayNightMode.utils';
+  import { createEventDispatcher } from 'svelte';
 
-  let isDayMode: boolean = true;
+  export let isDayMode: boolean;
 
-  function changeBackgroundColor() {
-    isDayMode = !isDayMode;
-    dayNightModeUtils.changeMode(document, isDayMode);
+  const dispatch = createEventDispatcher();
+
+  function updateDayNightMode() {
+    dispatch('dateDayNightMode', !isDayMode);
   }
 </script>
 
 <div class="wrapper">
-  <button on:click={changeBackgroundColor}>
+  <button on:click={updateDayNightMode}>
     <div class="icon-container">
       {#if isDayMode}
         <img class="svg-icon day" src={nightSVG} alt="day" />

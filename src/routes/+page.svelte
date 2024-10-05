@@ -10,17 +10,20 @@
   import translatorUtils from '$lib/utils/translator.utils';
   import translatorStore from '$lib/+stores/translator.store';
   import payloadMiddlewareUtils from '$lib/utils/payloadMiddleware.utils';
+  import configStore from '$lib/+stores/config.store';
 
   onMount(() => {
     // translate('Cz', TranslateModelSourceEnum.Auto, TranslateModelSourceEnum.En);
     translatorUtils.getSharedTranslation();
   });
 
+  function onUpdateDayNightMode(e: CustomEvent<boolean>) {
+    configStore.updateDayNightMode(e.detail);
+  }
+
   let translatedTextData: T_.TranslationLS;
 
   translatorStore.subscribe((state) => {
-    console.log(state);
-
     translatedTextData = payloadMiddlewareUtils.translation_TranslationLS(
       {
         details: null,
@@ -37,7 +40,10 @@
 </script>
 
 <div class="wrapper">
-  <Navigation />
+  <Navigation
+    isDayMode={$configStore.isDayMode}
+    on:dateDayNightMode={onUpdateDayNightMode}
+  />
   <TranslatorsView {translatedTextData} />
   <InfoForUser />
   <Footer />
