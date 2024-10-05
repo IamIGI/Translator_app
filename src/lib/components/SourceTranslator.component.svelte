@@ -11,7 +11,6 @@
   import localStorageDataUtils, {
     LSKey,
   } from '$lib/utils/localStorageData.utils';
-  import { createEventDispatcher } from 'svelte';
 
   export let translateOnTimeout: boolean;
   export let selectedSourceLanguage: TranslateModelSourceEnum;

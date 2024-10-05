@@ -133,7 +133,7 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    z-index: 2;
+    z-index: 10;
   }
 
   .search-wrapper {

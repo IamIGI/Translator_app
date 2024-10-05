@@ -227,6 +227,22 @@ const translatorStore = () => {
     });
   }
 
+  function getLangItem(lang: TranslateModelSourceEnum): T_.LangItem {
+    const selectedLangItem = get(store).supportedLanguages.find(
+      (langItem) => langItem.value === lang
+    );
+    if (!selectedLangItem) {
+      console.warn(
+        'Could not found selected lang, return default language instead: "English"'
+      );
+      return {
+        text: 'English',
+        value: TranslateModelSourceEnum.En,
+      } as T_.LangItem;
+    }
+    return selectedLangItem;
+  }
+
   return {
     subscribe,
     setInitData,
@@ -244,6 +260,7 @@ const translatorStore = () => {
     getUserFavItem,
     getObjectFroSharedTranslation,
     saveSharedTranslation,
+    getLangItem,
   };
 };
 
