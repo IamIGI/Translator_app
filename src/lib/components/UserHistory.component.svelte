@@ -1,6 +1,7 @@
 <script lang="ts">
   import HistoryItemMenu from './HistoryItemMenu.component.svelte';
   import TranslationList from './TranslationList.component.svelte';
+  import historyListSVG from '$assets/historyList.svg';
 
   export let data: T_.TranslationLS[];
 
@@ -11,7 +12,7 @@
 </script>
 
 <div class="wrapper">
-  <TranslationList {data}>
+  <TranslationList {data} icon={historyListSVG}>
     <HistoryItemMenu
       slot="menu"
       let:translationId
@@ -32,8 +33,8 @@
     justify-content: flex-start;
     align-items: center;
 
-    max-height: 650px;
-    overflow: auto;
+    max-height: 715px;
+    overflow: scroll;
     /* outline: 1px solid green; */
   }
 </style>

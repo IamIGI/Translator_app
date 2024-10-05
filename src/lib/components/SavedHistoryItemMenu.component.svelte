@@ -40,6 +40,7 @@
       border-radius: 25%;
       padding: 5px;
       cursor: pointer;
+      filter: var(--icon-color-filter);
 
       &:hover {
         background-color: var(--main-button-background-color-hover);

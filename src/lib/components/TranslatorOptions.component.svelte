@@ -120,5 +120,6 @@
     height: 30px;
     width: 30px;
     cursor: pointer;
+    filter: var(--icon-color-filter);
   }
 </style>

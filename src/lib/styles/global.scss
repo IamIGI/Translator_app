@@ -5,7 +5,8 @@
 }
 
 ::-webkit-scrollbar-track {
-  /* background: #f1f1f1; */
+  background: red;
+  background-color: transparent; /* Make the track transparent */
 }
 
 ::-webkit-scrollbar-thumb {
@@ -21,7 +22,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
-  background-color: #ffffff;
+  scrollbar-gutter: stable; /* Reserve space for the scrollbar */
 }
 
 h1,
@@ -79,7 +80,7 @@ button {
     cursor: auto;
   }
 
-  :hover {
-    background-color: var(--main-button-background-color-hover);
-  }
+  // :hover {
+  //   background-color: var(--main-button-background-color-hover);
+  // }
 }
