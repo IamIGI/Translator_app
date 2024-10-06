@@ -6,7 +6,7 @@
   import Navigation from '$lib/components/Navigation.component.svelte';
   import TranslatorsView from '$lib/components/TranslatorsView.component.svelte';
   import InfoForUser from '$lib/components/InfoForUser.component.svelte';
-  import Footer from '$lib/components/Footer.component.svelte';
+
   import translatorUtils from '$lib/utils/translator.utils';
   import translatorStore from '$lib/+stores/translator.store';
   import payloadMiddlewareUtils from '$lib/utils/payloadMiddleware.utils';
@@ -46,7 +46,6 @@
   />
   <TranslatorsView {translatedTextData} />
   <InfoForUser />
-  <Footer />
 </div>
 
 <style lang="scss">

@@ -50,7 +50,7 @@
     </div>
     <div class="buttons-wrapper-items">
       {#if type === TranslatorType.Source}
-        <p>{letterCounter} / {maxTextSize}</p>
+        <p class="letter-counter">{letterCounter} / {maxTextSize}</p>
         <div class="source">
           <button>
             <img src={keyboardSVG} alt="keyboard" class="svg-icon" />
@@ -88,6 +88,10 @@
       align-items: center;
     }
 
+    .letter-counter {
+      background-color: transparent;
+    }
+
     .source,
     .target {
       display: flex;
@@ -104,14 +108,6 @@
     .source {
       button {
         padding: 5px;
-      }
-    }
-
-    .target {
-      button {
-        :hover {
-          background-color: #262522;
-        }
       }
     }
   }

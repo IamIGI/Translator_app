@@ -4,9 +4,6 @@
   import rightArrowSVG from '$assets/rightArrow.svg';
 
   export let data: T_.TranslationLS[];
-  export let icon: string;
-
-  let isListVisible: boolean = true;
 
   let expanded: boolean[] = [];
   let needsToggle: boolean[] = [];
@@ -34,6 +31,14 @@
 
   onMount(() => {
     updateWrapperStates();
+
+    expanded = data.map(() => false);
+    needsToggle = data.map(() => false);
+
+    return () => {
+      expanded = data.map(() => false);
+      needsToggle = data.map(() => false);
+    };
   });
 
   $: if (data) {
@@ -44,42 +49,34 @@
 </script>
 
 <div class="list-wrapper" bind:this={listRef}>
-  <div class="list-navigation">
-    <button
-      class="menu-button"
-      on:click={() => (isListVisible = !isListVisible)}
-    >
-      <img src={icon} alt="favorites" />
-    </button>
-  </div>
-  {#if isListVisible}
-    {#each data as translation, index}
-      <div class="item-wrapper">
-        <div class="top-menu">
-          <div class="top-menu-languages">
-            <p>{translation.source.lang}</p>
-            <img src={rightArrowSVG} alt="rightArrow" class="right-svg" />
-            <p>{translation.target.lang}</p>
-          </div>
-          <div class="top-menu-options">
-            <slot name="menu" translationId={translation.id} {index} />
-          </div>
+  {#each data as translation, index}
+    <div class="item-wrapper">
+      <div class="top-menu">
+        <div class="top-menu-languages">
+          <p>{translation.source.lang}</p>
+          <img src={rightArrowSVG} alt="rightArrow" class="right-svg" />
+          <p>{translation.target.lang}</p>
         </div>
-        <div class="text-wrapper" class:expanded={expanded[index]}>
-          <p>{translation.text}</p>
-          <p>{translation.translation}</p>
-          {#if needsToggle[index]}
-            <button class="toggle-button" on:click={() => toggleExpand(index)}>
-              {expanded[index] ? 'Collapse' : 'Read more...'}
-            </button>
-          {/if}
-        </div>
-        <div class="date-wrapper">
-          <p>{dateUtils.formatDateToDDMMYYYY(new Date(translation.date))}</p>
+        <div class="top-menu-options">
+          <slot name="menu" translationId={translation.id} {index} />
         </div>
       </div>
-    {/each}
-  {/if}
+      <div class="text-wrapper" class:expanded={expanded[index]}>
+        <p>{translation.text}</p>
+        <p>{translation.translation}</p>
+        {#if needsToggle[index]}
+          <button class="toggle-button" on:click={() => toggleExpand(index)}>
+            <span>
+              {expanded[index] ? 'Collapse' : 'Read more...'}
+            </span>
+          </button>
+        {/if}
+      </div>
+      <div class="date-wrapper">
+        <p>{dateUtils.formatDateToDDMMYYYY(new Date(translation.date))}</p>
+      </div>
+    </div>
+  {/each}
 </div>
 
 <style lang="scss">
@@ -89,6 +86,7 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+    scrollbar-gutter: stable; // Reserve space for the scrollbar
   }
 
   .item-wrapper {
@@ -176,11 +174,13 @@
     right: 4px;
     bottom: 7px;
     padding: 0 0 0 4px;
-    color: var(--color-button);
     font-weight: 600;
     cursor: pointer;
-    background-color: white;
-    font-size: var(--font-size-min);
+
+    span {
+      font-size: var(--font-size-min);
+      color: var(--color-accent);
+    }
 
     &:hover {
       color: black;
@@ -195,6 +195,7 @@
     border-bottom: var(--main-button-background-color-hover);
     height: 80px;
     background-color: var(--main-background-color);
+    background-color: red;
 
     z-index: 2;
 

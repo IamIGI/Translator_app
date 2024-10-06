@@ -1,18 +1,18 @@
 <script lang="ts">
   import HistoryItemMenu from './HistoryItemMenu.component.svelte';
   import TranslationList from './TranslationList.component.svelte';
-  import historyListSVG from '$assets/historyList.svg';
 
   export let data: T_.TranslationLS[];
 
   let isItemMenuVisible: number | undefined = undefined;
+
   function handleItemMenuVisibleChange(value: number | undefined) {
     isItemMenuVisible = value;
   }
 </script>
 
 <div class="wrapper">
-  <TranslationList {data} icon={historyListSVG}>
+  <TranslationList {data}>
     <HistoryItemMenu
       slot="menu"
       let:translationId
@@ -27,14 +27,17 @@
 
 <style lang="scss">
   .wrapper {
-    flex: 1;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-
     max-height: 715px;
-    overflow: scroll;
-    /* outline: 1px solid green; */
+    overflow: auto;
+    /* outline: 2px solid orange; */
+
+    @media (max-width: 850px) {
+      flex: none;
+    }
   }
 </style>
