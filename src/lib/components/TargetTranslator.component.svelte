@@ -88,6 +88,10 @@
     justify-content: flex-start;
     align-items: center;
     min-height: 400px;
+
+    @media (max-width: 850px) {
+      width: 100%;
+    }
   }
 
   .translator-wrapper {

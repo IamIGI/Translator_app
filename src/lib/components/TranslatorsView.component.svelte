@@ -6,18 +6,32 @@
   import TargetTranslator from './TargetTranslator.component.svelte';
   import translateSVG from '$assets/translate.svg';
   import switchSVG from '$assets/arrows-horizontal.svg';
+  import { onMount } from 'svelte';
 
   let callForTranslate: boolean = false;
+  let windowWidth = 0;
   export let translatedTextData: T_.TranslationLS;
 
   function handleCallForTranslate() {
-    console.log('handleCallForTranslate');
     callForTranslate = true;
     const timeoutInstance = setTimeout(() => {
       callForTranslate = false;
       return clearTimeout(timeoutInstance);
     }, 100);
   }
+
+  const updateWindowWidth = () => {
+    windowWidth = window.innerWidth;
+  };
+
+  onMount(() => {
+    windowWidth = window.innerWidth;
+    window.addEventListener('resize', updateWindowWidth);
+
+    return () => {
+      window.removeEventListener('resize', updateWindowWidth);
+    };
+  });
 </script>
 
 <div class="wrapper">
@@ -36,11 +50,13 @@
       <img src={translateSVG} alt="translate" />
     </button>
   </div>
-  <TargetTranslator
-    selectedLanguage={$translatorStore.selectedTargetLanguage}
-    translatedText={$translatorStore.translatedText}
-    {translatedTextData}
-  />
+  {#if windowWidth > 850 || $translatorStore.translatedText.length !== 0}
+    <TargetTranslator
+      selectedLanguage={$translatorStore.selectedTargetLanguage}
+      translatedText={$translatorStore.translatedText}
+      {translatedTextData}
+    />
+  {/if}
   {#if $translatorStore.bigLangMenu.isOpen}
     <LangMenuBig
       type={$translatorStore.bigLangMenu.type}
@@ -51,22 +67,24 @@
 
 <style lang="scss">
   .wrapper {
+    height: fit-content;
     position: relative;
     /* outline: 1px solid red; */
     margin: 0 2.5rem;
     display: flex;
     flex-direction: row;
-    gap: 0.6rem;
     justify-content: center;
     align-items: center;
+    gap: 0.6rem;
 
     width: calc(100% - 2.5rem);
     max-width: 1600px;
 
     /* outline: 1px solid red; */
     @media (max-width: 850px) {
-      margin: 0 1rem;
-      gap: 1rem;
+      flex-direction: column;
+      /* margin: 0 1rem;
+      gap: 1rem; */
     }
   }
 
@@ -77,6 +95,13 @@
     justify-content: flex-start;
     align-items: center;
     gap: 10rem;
+
+    @media (max-width: 850px) {
+      flex-direction: row;
+      gap: 5rem;
+      /* margin: 0 1rem;
+      gap: 1rem; */
+    }
   }
 
   .mid-button {
