@@ -6,11 +6,12 @@
   import Navigation from '$lib/components/Navigation.component.svelte';
   import TranslatorsView from '$lib/components/TranslatorsView.component.svelte';
   import InfoForUser from '$lib/components/InfoForUser.component.svelte';
-
   import translatorUtils from '$lib/utils/translator.utils';
   import translatorStore from '$lib/+stores/translator.store';
   import payloadMiddlewareUtils from '$lib/utils/payloadMiddleware.utils';
   import configStore from '$lib/+stores/config.store';
+  import daySVG from '$assets/night_day_mode/day.svg';
+  import nightSVG from '$assets/night_day_mode/night.svg';
 
   onMount(() => {
     // translate('Cz', TranslateModelSourceEnum.Auto, TranslateModelSourceEnum.En);
@@ -43,8 +44,17 @@
   <Navigation
     isDayMode={$configStore.isDayMode}
     on:dateDayNightMode={onUpdateDayNightMode}
+    {nightSVG}
+    {daySVG}
   />
-  <TranslatorsView {translatedTextData} />
+
+  <TranslatorsView
+    {translatedTextData}
+    isDayMode={$configStore.isDayMode}
+    on:dateDayNightMode={onUpdateDayNightMode}
+    {nightSVG}
+    {daySVG}
+  />
   <InfoForUser />
 </div>
 

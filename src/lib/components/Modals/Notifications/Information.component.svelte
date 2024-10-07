@@ -4,6 +4,7 @@
 
   export let message: string;
   export let timeout: number = 5; // seconds
+  export let type: 'success' | 'warning' = 'success';
 
   let notificationModalRef: SvelteComponent;
   let showModal: boolean = false;
@@ -32,8 +33,15 @@
 
 {#if showModal}
   <NotificationModal bind:this={notificationModalRef} {animationDuration}>
-    <div class="wrapper">
-      <p>{message}</p>
+    <div
+      class="wrapper"
+      style="background-color: {type === 'success' ? '#059105' : '#b38405'};"
+    >
+      <p
+        style="background-color: {type === 'success' ? '#059105' : '#b38405'};"
+      >
+        {message}
+      </p>
     </div>
   </NotificationModal>
 {/if}
@@ -45,13 +53,12 @@
     min-height: 60px;
     width: fit-content;
     padding: 10px 15px 10px 15px;
-    background-color: rgb(5, 145, 5);
+
     display: flex;
     justify-content: flex-start;
     align-items: center;
 
     p {
-      background-color: rgb(5, 145, 5);
       color: white;
       font-weight: 600;
       font-size: var(--font-size-min);

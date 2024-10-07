@@ -1,12 +1,11 @@
 <script lang="ts">
-  import daySVG from '$assets/night_day_mode/day.svg';
-  import nightSVG from '$assets/night_day_mode/night.svg';
-  import dayNightModeUtils from '$lib/utils/dayNightMode.utils';
   import { createEventDispatcher } from 'svelte';
 
   export let isDayMode: boolean;
+  export let nightSVG: string;
+  export let daySVG: string;
 
-  const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher<{ dateDayNightMode: boolean }>();
 
   function updateDayNightMode() {
     dispatch('dateDayNightMode', !isDayMode);
@@ -35,6 +34,12 @@
     padding: 0.5rem;
     background-color: var(--main-second-background-color);
     border-bottom: 1px solid var(--border-color);
+
+    @media (max-width: 650px) {
+      display: none;
+      height: 50px;
+      padding: 1rem;
+    }
   }
 
   .icon-container {
