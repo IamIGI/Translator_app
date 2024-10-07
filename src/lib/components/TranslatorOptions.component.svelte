@@ -1,5 +1,6 @@
 <script lang="ts">
   import { TranslatorType } from '$lib/models/enums';
+  import configStore from '$lib/+stores/config.store';
   import microphoneSVG from '$assets/microphone.svg';
   import loudSpeakerSVG from '$assets/loudspeaker.svg';
   import copySVG from '$assets/copy.svg';
@@ -11,7 +12,13 @@
   export let maxTextSize: number;
   export let type: TranslatorType;
 
-  const dispatch = createEventDispatcher();
+  let isKeyboardOpen: boolean = false;
+
+  const dispatch = createEventDispatcher<{
+    copyToClipboard: null;
+    shareTranslation: undefined;
+    showKeyboard: boolean;
+  }>();
 
   function onCopyText() {
     dispatch('copyToClipboard', null);
@@ -19,6 +26,11 @@
 
   function onShareTranslation() {
     dispatch('shareTranslation');
+  }
+
+  function openKeyboard() {
+    isKeyboardOpen = !isKeyboardOpen;
+    dispatch('showKeyboard', isKeyboardOpen);
   }
 </script>
 
@@ -52,7 +64,7 @@
       {#if type === TranslatorType.Source}
         <p class="letter-counter">{letterCounter} / {maxTextSize}</p>
         <div class="source">
-          <button>
+          <button on:click={openKeyboard} disabled={$configStore.isSmallScreen}>
             <img src={keyboardSVG} alt="keyboard" class="svg-icon" />
           </button>
         </div>
@@ -99,9 +111,10 @@
 
       button {
         background-color: transparent;
-        /* &:disabled {
-          border-bottom: 1px solid red;
-        } */
+        &:disabled {
+          filter: invert(77%) sepia(0%) saturate(546%) hue-rotate(215deg)
+            brightness(91%) contrast(99%);
+        }
       }
     }
 

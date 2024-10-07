@@ -33,6 +33,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"path": "^0.12.7"
+		"path": "^0.12.7",
+		"svelte-keyboard": "^0.5.5"
 	}
 }

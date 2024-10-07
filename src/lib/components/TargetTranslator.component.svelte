@@ -105,7 +105,7 @@
     gap: 0.5rem;
     max-height: 100%;
     border: 1px solid rgba(0, 0, 0, 0.12);
-    border-radius: var(--border-radius);
+    border-radius: var(--main-border-radius);
     padding: 0.5rem;
 
     textarea {

@@ -34,7 +34,7 @@
     align-items: center;
     justify-content: center;
     z-index: 9999;
-    border-radius: var(--border-radius);
+    border-radius: var(--main-border-radius);
   }
 
   .header {
@@ -45,7 +45,6 @@
     justify-content: center;
     align-items: center;
     align-self: stretch;
-    background-color: white;
     font-size: var(--font-size-normal);
     font-weight: 700;
   }

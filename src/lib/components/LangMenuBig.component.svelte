@@ -126,7 +126,7 @@
     height: fit-content;
     border: 1px solid rgba(0, 0, 0, 0.12);
     background-color: var(--main-second-background-color);
-    border-radius: var(--border-radius);
+    border-radius: var(--main-border-radius);
     gap: 10px;
 
     display: flex;
@@ -149,8 +149,8 @@
     button {
       width: 50px;
       height: 100%;
-      border-top-left-radius: var(--border-radius);
-      border-top-right-radius: var(--border-radius);
+      border-top-left-radius: var(--main-border-radius);
+      border-top-right-radius: var(--main-border-radius);
       /* background-color: var(--main-button-background-color); */
       /* &:hover {
         background-color: var(--main-button-background-color-hover);
@@ -163,7 +163,7 @@
       border: none; /* Removes all borders */
       outline: none; /* Removes the focus outline */
       box-shadow: none; /* Ensures no box-shadow is applied */
-      border-radius: var(--border-radius);
+      border-radius: var(--main-border-radius);
       background-color: var(--target-translator-background-color);
 
       height: 100%;
@@ -228,7 +228,7 @@
     height: 40px;
     font-size: var(--font-size-min);
     padding: 7px;
-    border-top-right-radius: var(--border-radius);
+    border-top-right-radius: var(--main-border-radius);
     text-align: center;
     border-bottom: 2px solid transparent;
     cursor: pointer;
