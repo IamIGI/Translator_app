@@ -54,6 +54,10 @@
     width: 100%;
 
     position: relative;
+
+    @media (max-width: 650px) {
+      display: none;
+    }
   }
 
   .langButton {

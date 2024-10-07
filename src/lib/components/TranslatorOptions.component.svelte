@@ -6,6 +6,7 @@
   import copySVG from '$assets/copy.svg';
   import keyboardSVG from '$assets/keyboard.svg';
   import shareSVG from '$assets/share.svg';
+  import translateSVG from '$assets/translate.svg';
   import { createEventDispatcher } from 'svelte';
 
   export let letterCounter: number;
@@ -18,6 +19,7 @@
     copyToClipboard: null;
     shareTranslation: undefined;
     showKeyboard: boolean;
+    callForTranslate: undefined;
   }>();
 
   function onCopyText() {
@@ -31,6 +33,11 @@
   function openKeyboard() {
     isKeyboardOpen = !isKeyboardOpen;
     dispatch('showKeyboard', isKeyboardOpen);
+  }
+
+  function callForTranslate() {
+    console.log('callForTranslate_1');
+    dispatch('callForTranslate');
   }
 </script>
 
@@ -48,13 +55,21 @@
         </div>
       {:else}
         <div class="target">
-          <button on:click={onCopyText} disabled={letterCounter === 0}>
+          <button
+            class="transparent-button-color"
+            on:click={onCopyText}
+            disabled={letterCounter === 0}
+          >
             <img src={copySVG} alt="copy" class="svg-icon" />
           </button>
-          <button on:click={onShareTranslation} disabled={letterCounter === 0}>
+          <button
+            class="transparent-button-color"
+            on:click={onShareTranslation}
+            disabled={letterCounter === 0}
+          >
             <img src={shareSVG} alt="share" class="svg-icon" />
           </button>
-          <button>
+          <button class="transparent-button-color">
             <img src={loudSpeakerSVG} alt="loudspeaker" class="svg-icon" />
           </button>
         </div>
@@ -64,9 +79,15 @@
       {#if type === TranslatorType.Source}
         <p class="letter-counter">{letterCounter} / {maxTextSize}</p>
         <div class="source">
-          <button on:click={openKeyboard} disabled={$configStore.isSmallScreen}>
-            <img src={keyboardSVG} alt="keyboard" class="svg-icon" />
-          </button>
+          {#if $configStore.isSmallScreen}
+            <button on:click={callForTranslate} class="svg-translate-icon">
+              <img src={translateSVG} alt="translate" />
+            </button>
+          {:else}
+            <button on:click={openKeyboard}>
+              <img src={keyboardSVG} alt="keyboard" class="svg-icon" />
+            </button>
+          {/if}
         </div>
       {/if}
     </div>
@@ -110,7 +131,6 @@
       gap: 20px;
 
       button {
-        background-color: transparent;
         &:disabled {
           filter: invert(77%) sepia(0%) saturate(546%) hue-rotate(215deg)
             brightness(91%) contrast(99%);
@@ -125,10 +145,30 @@
     }
   }
 
+  .transparent-button-color {
+    background-color: transparent;
+  }
+
   .svg-icon {
     height: 30px;
     width: 30px;
     cursor: pointer;
     filter: var(--icon-color-filter);
+  }
+
+  .svg-translate-icon {
+    cursor: pointer;
+    padding: 10px;
+    background-color: var(--color-button);
+    border: 3px solid var(--color-accent);
+    border-radius: 15px;
+
+    img {
+      height: 40px;
+      width: 80px;
+      background-color: transparent;
+      filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg)
+        brightness(103%) contrast(103%);
+    }
   }
 </style>
