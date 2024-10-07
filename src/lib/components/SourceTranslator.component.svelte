@@ -11,6 +11,8 @@
   import localStorageDataUtils, {
     LSKey,
   } from '$lib/utils/localStorageData.utils';
+  import Keyboard from 'svelte-keyboard';
+  import keyboardHandler from '$lib/utils/keyboard.utils';
 
   export let translateOnTimeout: boolean;
   export let selectedSourceLanguage: TranslateModelSourceEnum;
@@ -18,14 +20,16 @@
   export let supportedLanguages: T_.LangItem[];
   export let translateCall: boolean;
 
-  let text: string = '';
   let searchTimeout: number;
+  let isKeyboardVisible: boolean = false;
+
+  let text: string = '';
+  let textAreaRef: HTMLTextAreaElement | null = null;
 
   $: text, translateOnTimeout && translateTexOnKeyStroke();
   $: translateCall, handleCallForTranslate();
 
   function handleCallForTranslate() {
-    console.log('translateCall: ', translateCall);
     if (translateCall) translateText();
   }
 
@@ -49,6 +53,9 @@
 
   //When user hit Enter button, then save it to user history
   async function handleEnter(event: KeyboardEvent) {
+    if (isKeyboardVisible) {
+      event.preventDefault(); // Block typing from the physical keyboard
+    }
     if (event.key === 'Enter') await translateText();
   }
 
@@ -80,6 +87,20 @@
     translatorStore.updateTranslatedText('', '');
   }
 
+  function onShowKeyboard(e: CustomEvent<boolean>) {
+    console.log(e.detail);
+    isKeyboardVisible = e.detail;
+  }
+
+  const onKeydown = async (event: CustomEvent<string>) => {
+    if (!textAreaRef) return;
+    if (event.detail === 'Enter') {
+      await translateText();
+      return;
+    }
+    text = keyboardHandler(textAreaRef, text, event.detail);
+  };
+
   translatorStore.subscribe((state) => {
     const { sourceText, translatedText } = state;
     if (translatedText !== '' && sourceText !== text) text = sourceText;
@@ -96,6 +117,7 @@
   />
   <div class="translator-wrapper">
     <textarea
+      bind:this={textAreaRef}
       name="translator"
       bind:value={text}
       on:keydown={handleEnter}
@@ -107,10 +129,21 @@
         <img src={xSymbolSVG} class="svg-icon" alt="removeMark" />
       </button>
     {/if}
+    {#if isKeyboardVisible}
+      <div class="keyboard-wrapper">
+        <Keyboard
+          on:keydown={onKeydown}
+          --background="#cdcdcd"
+          --active-background="#c2c2c2"
+          --min-width="3rem"
+        />
+      </div>
+    {/if}
     <TranslatorOptions
       letterCounter={text.length}
       maxTextSize={CONSTS.maxTextSize}
       type={TranslatorType.Source}
+      on:showKeyboard={onShowKeyboard}
     />
   </div>
 </div>
@@ -140,7 +173,7 @@
     gap: 0.5rem;
     max-height: 100%;
     border: 1px solid rgba(0, 0, 0, 0.12);
-    border-radius: var(--border-radius);
+    border-radius: var(--main-border-radius);
     padding: 0.5rem;
     background-color: var(--main-second-background-color);
 
@@ -156,6 +189,15 @@
       margin-right: 35px;
       background-color: var(--main-second-background-color);
     }
+  }
+
+  .keyboard-wrapper {
+    z-index: 3;
+    padding: 10px;
+    background-color: var(--main-second-background-color);
+    position: absolute;
+    bottom: -250px;
+    left: 150px;
   }
 
   .remove-mark {

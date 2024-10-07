@@ -4,44 +4,32 @@
   import translatorStore from '$lib/+stores/translator.store';
   import favoritesSVG from '$assets/favoritesList.svg';
   import historyListSVG from '$assets/historyList.svg';
-  import { onMount } from 'svelte';
+  import configStore from '$lib/+stores/config.store';
 
   let isUserHistoryVisible: boolean = false;
   let isUserSavedHistoryVisible: boolean = false;
-  let windowWidth = 0;
 
-  onMount(() => {
-    window.innerWidth;
-    window.addEventListener('resize', updateWindowWidth);
-
-    return () => {
-      window.removeEventListener('resize', updateWindowWidth);
-    };
-  });
-
-  const updateWindowWidth = () => {
-    windowWidth = window.innerWidth;
-
+  configStore.subscribe((state) => {
     if (
-      windowWidth <= 850 &&
+      state.isSmallScreen &&
       isUserHistoryVisible &&
       isUserSavedHistoryVisible
     ) {
       isUserHistoryVisible = false;
       isUserSavedHistoryVisible = false;
     }
-  };
+  });
 
   function updateUserHistoryVisibility() {
     isUserHistoryVisible = !isUserHistoryVisible;
-    if (windowWidth <= 850) {
+    if (configStore.isSmallScreen()) {
       isUserSavedHistoryVisible = false;
     }
   }
 
   function updateUserSavedHistoryVisibility() {
     isUserSavedHistoryVisible = !isUserSavedHistoryVisible;
-    if (windowWidth <= 850) {
+    if (configStore.isSmallScreen()) {
       isUserHistoryVisible = false;
     }
   }

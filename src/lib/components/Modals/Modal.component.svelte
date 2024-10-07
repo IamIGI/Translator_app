@@ -35,7 +35,7 @@
     align-items: center;
     justify-content: center;
     z-index: 9999;
-    border-radius: var(--border-radius);
+    border-radius: var(--main-border-radius);
   }
 
   .modal-content {
@@ -44,7 +44,7 @@
     /* To change in future */
     /* max-width: 760px; */
     padding: 10px;
-    border-radius: var(--border-radius);
+    border-radius: var(--main-border-radius);
 
     .header {
       display: flex;

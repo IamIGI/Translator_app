@@ -6,10 +6,9 @@
   import TargetTranslator from './TargetTranslator.component.svelte';
   import translateSVG from '$assets/translate.svg';
   import switchSVG from '$assets/arrows-horizontal.svg';
-  import { onMount } from 'svelte';
 
   let callForTranslate: boolean = false;
-  let windowWidth = 0;
+
   export let translatedTextData: T_.TranslationLS;
 
   function handleCallForTranslate() {
@@ -19,19 +18,6 @@
       return clearTimeout(timeoutInstance);
     }, 100);
   }
-
-  const updateWindowWidth = () => {
-    windowWidth = window.innerWidth;
-  };
-
-  onMount(() => {
-    windowWidth = window.innerWidth;
-    window.addEventListener('resize', updateWindowWidth);
-
-    return () => {
-      window.removeEventListener('resize', updateWindowWidth);
-    };
-  });
 </script>
 
 <div class="wrapper">
@@ -50,7 +36,7 @@
       <img src={translateSVG} alt="translate" />
     </button>
   </div>
-  {#if windowWidth > 850 || $translatorStore.translatedText.length !== 0}
+  {#if !$configStore.isSmallScreen || $translatorStore.translatedText.length !== 0}
     <TargetTranslator
       selectedLanguage={$translatorStore.selectedTargetLanguage}
       translatedText={$translatorStore.translatedText}

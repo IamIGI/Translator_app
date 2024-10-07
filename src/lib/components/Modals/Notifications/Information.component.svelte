@@ -40,7 +40,7 @@
 
 <style lang="scss">
   .wrapper {
-    border-radius: var(--border-radius);
+    border-radius: var(--main-border-radius);
     min-width: 180px;
     min-height: 60px;
     width: fit-content;
@@ -51,6 +51,7 @@
     align-items: center;
 
     p {
+      background-color: rgb(5, 145, 5);
       color: white;
       font-weight: 600;
       font-size: var(--font-size-min);

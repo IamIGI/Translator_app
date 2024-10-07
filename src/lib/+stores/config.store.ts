@@ -9,6 +9,7 @@ export interface ConfigStore {
   translateOnTimeout: boolean;
   localization: JsonGet200Response;
   isDayMode: boolean;
+  isSmallScreen: boolean;
 }
 
 function checkForDayNightMode() {
@@ -39,6 +40,7 @@ const configStore = () => {
       translateOnTimeout: false,
       localization: localizationData,
       isDayMode: checkForDayNightMode(),
+      isSmallScreen: false,
     };
 
     set(initData);
@@ -58,11 +60,24 @@ const configStore = () => {
     });
   }
 
+  function updateIsSmallScreen(value: boolean) {
+    update((state) => {
+      state.isSmallScreen = value;
+      return state;
+    });
+  }
+
+  function isSmallScreen() {
+    return get(store).isSmallScreen;
+  }
+
   return {
     subscribe,
     setInitData,
     getCountryCode,
     updateDayNightMode,
+    updateIsSmallScreen,
+    isSmallScreen,
   };
 };
 
