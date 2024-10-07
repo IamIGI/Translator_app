@@ -126,7 +126,7 @@
     />
     {#if text.length > 0}
       <button class="remove-mark" on:click={() => clearText()}>
-        <img src={xSymbolSVG} class="svg-icon" alt="removeMark" />
+        <img src={xSymbolSVG} alt="removeMark" />
       </button>
     {/if}
     {#if isKeyboardVisible}
@@ -206,11 +206,20 @@
     right: 12px;
     background-color: transparent;
     cursor: pointer;
+    border-radius: 25%;
+    padding: 5px 3px 3px 5px;
+
+    &:hover {
+      background-color: rgb(231, 172, 70);
+      color: white;
+      border-bottom: 1px solid rgba(250, 249, 249, 0.12);
+    }
 
     img {
-      height: 23px;
-      width: 23px;
+      height: 20px;
+      width: 20px;
       background-color: transparent;
+      filter: var(--icon-color-filter);
     }
   }
 </style>

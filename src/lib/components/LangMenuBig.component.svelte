@@ -253,6 +253,7 @@
       flex: 1;
       display: flex;
       justify-content: center;
+      background-color: transparent;
     }
 
     &:hover {

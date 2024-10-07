@@ -66,7 +66,7 @@
     />
     {#if translatedText.length > 0}
       <button class="save-mark" on:click={saveFavorites}>
-        <img src={starSVG} class="svg-icon" alt="removeMark" />
+        <img src={starSVG} alt="removeMark" />
       </button>
     {/if}
     <TranslatorOptions
@@ -131,7 +131,6 @@
     padding: 3px;
 
     &:hover {
-      cursor: pointer;
       background-color: rgb(231, 172, 70);
       color: white;
       border-bottom: 1px solid rgba(250, 249, 249, 0.12);
@@ -141,6 +140,7 @@
       height: 23px;
       width: 23px;
       background-color: transparent;
+      filter: var(--icon-color-filter);
     }
   }
 
