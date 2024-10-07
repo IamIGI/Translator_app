@@ -6,6 +6,7 @@
   import TargetTranslator from './TargetTranslator.component.svelte';
   import translateSVG from '$assets/translate.svg';
   import switchSVG from '$assets/arrows-horizontal.svg';
+  import { TranslatorType } from '$lib/models/enums';
 
   let callForTranslate: boolean = false;
 
@@ -21,12 +22,34 @@
 </script>
 
 <div class="wrapper">
+  <!-- Language menu navigation on mobile screen -->
+  <div class="mobile-lang-menu">
+    <button
+      class="langButton langButtonActive"
+      on:click={() => translatorStore.toggleLangBigMenu(TranslatorType.Source)}
+    >
+      {translatorStore.getLangItem($translatorStore.selectedSourceLanguage)
+        .text}
+    </button>
+    <button class="mid-button" on:click={translatorStore.swapSelectedLanguages}>
+      <img src={switchSVG} alt="switch" />
+    </button>
+    <button
+      class="langButton langButtonActive"
+      on:click={() => translatorStore.toggleLangBigMenu(TranslatorType.Target)}
+    >
+      {translatorStore.getLangItem($translatorStore.selectedTargetLanguage)
+        .text}
+    </button>
+  </div>
+  <!-- Translators  -->
   <SourceTranslator
     selectedSourceLanguage={$translatorStore.selectedSourceLanguage}
     selectedTargetLanguage={$translatorStore.selectedTargetLanguage}
     translateOnTimeout={$configStore.translateOnTimeout}
     supportedLanguages={translatorStore.getSupportedLanguageList()}
     translateCall={callForTranslate}
+    on:callForTranslate={handleCallForTranslate}
   />
   <div class="mid-buttons">
     <button class="mid-button" on:click={translatorStore.swapSelectedLanguages}>
@@ -43,6 +66,7 @@
       {translatedTextData}
     />
   {/if}
+  <!-- Language menu modal for big menu -->
   {#if $translatorStore.bigLangMenu.isOpen}
     <LangMenuBig
       type={$translatorStore.bigLangMenu.type}
@@ -74,6 +98,38 @@
     }
   }
 
+  .mobile-lang-menu {
+    display: none;
+
+    @media (max-width: 650px) {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .langButton {
+      min-width: 100px;
+      font-size: 14px;
+      color: #5f6368;
+      font-weight: 500;
+      padding: 10px 7px;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+
+      &:hover {
+        background-color: var(--main-button-background-color-hover);
+        border-bottom: 2px solid var(--color-accent);
+      }
+    }
+
+    .langButtonActive {
+      color: var(--color-accent);
+      border-bottom: 2px solid var(--color-accent);
+    }
+  }
+
   .mid-buttons {
     height: 100%;
     display: flex;
@@ -87,6 +143,10 @@
       gap: 5rem;
       /* margin: 0 1rem;
       gap: 1rem; */
+    }
+
+    @media (max-width: 650px) {
+      display: none;
     }
   }
 

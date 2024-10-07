@@ -78,7 +78,9 @@
     </button>
     <input
       type="text"
-      placeholder="Search language"
+      placeholder={type === TranslatorType.Source
+        ? 'Source language'
+        : 'Target language'}
       on:input={handleInput}
       bind:this={searchInput}
     />
@@ -168,6 +170,7 @@
 
       height: 100%;
       font-size: var(--font-size-normal);
+      padding-left: 10px;
     }
   }
 

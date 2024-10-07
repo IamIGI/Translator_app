@@ -13,6 +13,7 @@
   } from '$lib/utils/localStorageData.utils';
   import Keyboard from 'svelte-keyboard';
   import keyboardHandler from '$lib/utils/keyboard.utils';
+  import { createEventDispatcher } from 'svelte';
 
   export let translateOnTimeout: boolean;
   export let selectedSourceLanguage: TranslateModelSourceEnum;
@@ -28,6 +29,8 @@
 
   $: text, translateOnTimeout && translateTexOnKeyStroke();
   $: translateCall, handleCallForTranslate();
+
+  const dispatch = createEventDispatcher<{ callForTranslate: undefined }>();
 
   function handleCallForTranslate() {
     if (translateCall) translateText();
@@ -60,6 +63,8 @@
   }
 
   async function translateText() {
+    if (text.length === 0) return;
+
     const response = await translate(
       text,
       selectedSourceLanguage,
@@ -144,6 +149,7 @@
       maxTextSize={CONSTS.maxTextSize}
       type={TranslatorType.Source}
       on:showKeyboard={onShowKeyboard}
+      on:callForTranslate={() => dispatch('callForTranslate')}
     />
   </div>
 </div>
