@@ -23,6 +23,16 @@
       console.warn('No translated text to save');
       return;
     }
+
+    const favoritesTranslations = localStorageDataUtils.getData(
+      LSKey.userFavorites
+    );
+    //Check last saved translation, and block it if the same
+    if (favoritesTranslations[0].text === translatedTextData.text) {
+      notificationsUtils.showWarning('Translation already exists in favorites');
+      return;
+    }
+
     const userFavorites = localStorageDataUtils.saveData(
       LSKey.userFavorites,
       translatedTextData
@@ -63,6 +73,7 @@
       bind:value={translatedText}
       placeholder="Your translated text"
       class="translator-target"
+      readonly
     />
     {#if translatedText.length > 0}
       <button class="save-mark" on:click={saveFavorites}>

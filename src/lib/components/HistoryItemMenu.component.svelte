@@ -72,13 +72,14 @@
         console.log('Handle confirm');
       }
 
-      new WarnUser({
-        target: document.body,
-        props: {
-          text: 'Dane tłumaczenie jest już zapisane',
-          onConfirm: handleConfirm,
-        },
-      });
+      notificationsUtils.showWarning('Given translation is saved already');
+      // new WarnUser({
+      //   target: document.body,
+      //   props: {
+      //     text: 'Dane tłumaczenie jest już zapisane',
+      //     onConfirm: handleConfirm,
+      //   },
+      // });
 
       return;
     }

@@ -7,10 +7,20 @@
   import translateSVG from '$assets/translate.svg';
   import switchSVG from '$assets/arrows-horizontal.svg';
   import { TranslatorType } from '$lib/models/enums';
+  import { createEventDispatcher } from 'svelte';
+
+  export let translatedTextData: T_.TranslationLS;
+  export let isDayMode: boolean;
+  export let nightSVG: string;
+  export let daySVG: string;
 
   let callForTranslate: boolean = false;
 
-  export let translatedTextData: T_.TranslationLS;
+  const dispatch = createEventDispatcher<{ dateDayNightMode: boolean }>();
+
+  function updateDayNightMode() {
+    dispatch('dateDayNightMode', !isDayMode);
+  }
 
   function handleCallForTranslate() {
     callForTranslate = true;
@@ -23,23 +33,39 @@
 
 <div class="wrapper">
   <!-- Language menu navigation on mobile screen -->
-  <div class="mobile-lang-menu">
-    <button
-      class="langButton langButtonActive"
-      on:click={() => translatorStore.toggleLangBigMenu(TranslatorType.Source)}
-    >
-      {translatorStore.getLangItem($translatorStore.selectedSourceLanguage)
-        .text}
-    </button>
-    <button class="mid-button" on:click={translatorStore.swapSelectedLanguages}>
-      <img src={switchSVG} alt="switch" />
-    </button>
-    <button
-      class="langButton langButtonActive"
-      on:click={() => translatorStore.toggleLangBigMenu(TranslatorType.Target)}
-    >
-      {translatorStore.getLangItem($translatorStore.selectedTargetLanguage)
-        .text}
+  <div class="small-navigation-menu">
+    <div class="mobile-lang-menu">
+      <button
+        class="langButton langButtonActive"
+        on:click={() =>
+          translatorStore.toggleLangBigMenu(TranslatorType.Source)}
+      >
+        {translatorStore.getLangItem($translatorStore.selectedSourceLanguage)
+          .text}
+      </button>
+      <button
+        class="mid-button"
+        on:click={translatorStore.swapSelectedLanguages}
+      >
+        <img src={switchSVG} alt="switch" />
+      </button>
+      <button
+        class="langButton langButtonActive"
+        on:click={() =>
+          translatorStore.toggleLangBigMenu(TranslatorType.Target)}
+      >
+        {translatorStore.getLangItem($translatorStore.selectedTargetLanguage)
+          .text}
+      </button>
+    </div>
+    <button on:click={updateDayNightMode}>
+      <div class="icon-container">
+        {#if isDayMode}
+          <img class="svg-icon day" src={nightSVG} alt="day" />
+        {:else}
+          <img class="svg-icon night" src={daySVG} alt="night" />
+        {/if}
+      </div>
     </button>
   </div>
   <!-- Translators  -->
@@ -92,15 +118,16 @@
 
     /* outline: 1px solid red; */
     @media (max-width: 850px) {
+      //Navigation is disabled;
+      padding-top: 1rem;
       flex-direction: column;
       /* margin: 0 1rem;
       gap: 1rem; */
     }
   }
 
-  .mobile-lang-menu {
+  .small-navigation-menu {
     display: none;
-
     @media (max-width: 650px) {
       width: 100%;
       display: flex;
@@ -108,10 +135,19 @@
       align-items: center;
       gap: 10px;
     }
+  }
+
+  .mobile-lang-menu {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
 
     .langButton {
       min-width: 100px;
-      font-size: 14px;
+      height: 45px;
+      font-size: 16px;
       color: #5f6368;
       font-weight: 500;
       padding: 10px 7px;
@@ -165,5 +201,28 @@
       /* background-color: rgb(234, 234, 234); */
       background-color: var(--main-button-background-color-hover);
     }
+  }
+
+  .icon-container {
+    position: relative;
+    height: 40px;
+    width: 40px;
+    background-color: 'black';
+  }
+
+  .svg-icon {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* background-color: #151411; */
+  }
+
+  .day {
+    background-color: #fff;
+  }
+  .night {
+    background-color: #262522;
   }
 </style>
