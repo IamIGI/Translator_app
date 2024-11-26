@@ -5,6 +5,7 @@
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
+		"deploy": "deploy.bat",
 		"preview": "vite preview",
 		"gen:translator-api": "openapi-generator-cli generate -i ./src/lib/api/translator/translator.schema.json -o ./src/lib/api/translator/generated -g typescript-fetch --additional-properties=useSingleRequestParameter=false,prependFormOrBodyParameters=true",
 		"gen:ipapi-api": "openapi-generator-cli generate -i ./src/lib/api/ipapi/ipapi.schema.json -o ./src/lib/api/ipapi/generated -g typescript-fetch --additional-properties=useSingleRequestParameter=false,prependFormOrBodyParameters=true",
@@ -16,6 +17,7 @@
 	"devDependencies": {
 		"@openapitools/openapi-generator-cli": "^2.13.5",
 		"@sveltejs/adapter-auto": "^3.0.0",
+		"@sveltejs/adapter-static": "^3.0.6",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
 		"@types/eslint": "^9.6.0",
